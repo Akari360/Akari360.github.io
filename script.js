@@ -1,6 +1,7 @@
 // =========================================================================
-// 📂 FULLY AUTOMATED TOUR DATA REPOSITORY
-// No need to input image counts anymore! Just name your photos 1.jpg, 2.jpg...
+// 📂 AUTOMATED TOUR DATA REPOSITORY
+// When you create a new folder (like 0003), just add a new block {} here!
+// The website automatically generates everything else.
 // =========================================================================
 const toursData = [
     {
@@ -10,7 +11,7 @@ const toursData = [
         shortDescription: "A full architectural walk-through highlighting historical landmarks.",
         longDescription: "Welcome to this beautifully preserved historic property located right in the heart of the downtown district. Featuring original brickwork, soaring 14-foot ceilings, and completely modernized utility systems.",
         folderName: "0001/output",           // Points to tours/0001/output/index.html for 360 viewer
-        imageFolder: "tours/0001/assets",    // Looks for 1.jpg, 2.jpg, etc.
+        imageFolder: "tours/0001/assets",    // Scans for your newly generated thumbnails here
         contact: {
             heading: "Want to schedule a historic walk-through?",
             subheading: "Contact our commercial specialist.",
@@ -73,11 +74,12 @@ function renderHomepage() {
         card.className = 'card';
         card.onclick = () => renderProjectPage(tour.id);
 
-        const coverImage = `${tour.imageFolder}/1.jpg`;
+        // ⚡ INSTANT SPEED: The home grid cover loads your tiny thumbnail file instantly!
+        const coverImage = `${tour.imageFolder}/1-thumb.jpg`;
 
         card.innerHTML = `
             <div class="card-preview-image">
-                <img src="${coverImage}" alt="${tour.title}" loading="lazy">
+                <img src="${coverImage}" alt="${tour.title}" loading="lazy" onerror="this.src='${tour.imageFolder}/1.jpg'">
                 <div class="view-tour-overlay"><span>Explore Project ✨</span></div>
             </div>
             <div class="card-info">
@@ -93,40 +95,42 @@ function renderHomepage() {
 }
 
 // =========================================================================
-// 🚀 HIGH-SPEED PARALLEL FILE DISCOVERY ENGINE
-// Fires background verification pings simultaneously to remove latency bottlenecks
+// 🚀 BACKGROUND DISCOVERY ENGINE
+// Searches exclusively for lightweight thumbnails to maximize network performance
 // =========================================================================
 async function autoDiscoverImages(folderPath) {
-    const maxSafetyLimit = 20; // Maximum images to look for in a folder
+    const maxSafetyLimit = 20; 
     const checkPromises = [];
 
-    // Queue up check checks for numbers 1 through 20 all at the same time
     for (let i = 1; i <= maxSafetyLimit; i++) {
-        const testPath = `${folderPath}/${i}.jpg`;
+        const testPath = `${folderPath}/${i}-thumb.jpg`;
         checkPromises.push(
             checkImageExists(testPath).then(exists => ({ path: testPath, exists, index: i }))
         );
     }
 
-    // Resolve all network requests in parallel
     const results = await Promise.all(checkPromises);
-
-    // Sort results by index to ensure order is kept perfect (1, 2, 3...)
     results.sort((a, b) => a.index - b.index);
 
-    // Build the gallery array until we find a missing image entry
     const validImages = [];
     for (const result of results) {
         if (result.exists) {
             validImages.push(result.path);
         } else {
-            break; // Stop building sequence at the first 404 missing number gap
+            // Safety Fallback: If you haven't run your Node generator yet, show the original image
+            const fallbackPath = `${folderPath}/${result.index}.jpg`;
+            const fallbackExists = await checkImageExists(fallbackPath);
+            if (fallbackExists) {
+                validImages.push(fallbackPath);
+            } else {
+                break; 
+            }
         }
     }
     return validImages;
 }
 
-// Network Ping Helper
+// Network Checker Helper
 function checkImageExists(url) {
     return new Promise((resolve) => {
         const img = new Image();
@@ -137,7 +141,7 @@ function checkImageExists(url) {
 }
 
 // =========================================================================
-// ⚙️ OPTIMIZED PROJECT PAGE RENDERER (ASYNCHRONOUS BACKGROUND LOADING)
+// ⚙️ PROJECT DETAIL PAGE RENDERER (FULLY ASYNCHRONOUS DECOUPLED LOADING)
 // =========================================================================
 function renderProjectPage(projectId) {
     const project = toursData.find(p => p.id === projectId);
@@ -146,7 +150,7 @@ function renderProjectPage(projectId) {
     window.location.hash = `project-${projectId}`;
     window.scrollTo({ top: 0, behavior: 'smooth' });
 
-    // ⚡ ZERO DELAY: Instantly inject the full page shell and 360 iframe right away
+    // ⚡ ZERO-LAG: Paints layout templates and interactive 360 view immediately
     document.body.innerHTML = `
         <div id="detail-sticky-nav" class="sticky-nav-bar">
             <div class="container sticky-nav-content">
@@ -191,7 +195,7 @@ function renderProjectPage(projectId) {
             <div class="line-decorator"></div>
             <div class="carousel-wrapper">
                 <div class="carousel-track" id="dynamic-carousel-track">
-                     <p style="color: var(--text-secondary); padding: 20px; font-style: italic;">Loading images...</p>
+                     <p style="color: var(--text-secondary); padding: 20px; font-style: italic;">Optimizing display view...</p>
                 </div>
                 <div class="carousel-hint">Click to enlarge • Swipe horizontally →</div>
             </div>
@@ -235,13 +239,13 @@ function renderProjectPage(projectId) {
             <span class="lightbox-close" onclick="closeLightbox()">&times;</span>
             <button class="lightbox-arrow arrow-left" onclick="changeLightboxImage(-1)">&#10094;</button>
             <div class="lightbox-content-wrapper">
-                <img id="lightbox-target-img" src="" alt="Enlarged viewport visualization">
+                <img id="lightbox-target-img" src="" alt="Crystal clear high-res viewport visualization">
             </div>
             <button class="lightbox-arrow arrow-right" onclick="changeLightboxImage(1)">&#10095;</button>
         </div>
     `;
 
-    // Initialize Sticky Tracker scroll function logic
+    // Sticky navigation management
     window.onscroll = function() {
         const stickyNav = document.getElementById('detail-sticky-nav');
         if (stickyNav) {
@@ -250,8 +254,7 @@ function renderProjectPage(projectId) {
         }
     };
 
-    // 🏃‍♂️ BACKGROUND WORKER: Runs silently without blocking the interface. 
-    // The moment files are verified, they seamlessly slide into the carousel container.
+    // 🏃‍♂️ Background assets populate instantly using the lightweight thumbnails
     autoDiscoverImages(project.imageFolder).then(discoveredImages => {
         currentGalleryArray = discoveredImages;
         const track = document.getElementById('dynamic-carousel-track');
@@ -259,7 +262,7 @@ function renderProjectPage(projectId) {
         if (track && currentGalleryArray.length > 0) {
             track.innerHTML = currentGalleryArray.map((imgUrl, index) => `
                 <div class="carousel-slide" onclick="openLightbox(${index})">
-                    <img src="${imgUrl}" alt="Gallery view room ${index + 1}">
+                    <img src="${imgUrl}" alt="Gallery room view ${index + 1}" loading="lazy">
                 </div>
             `).join('');
         } else if (track) {
@@ -269,13 +272,18 @@ function renderProjectPage(projectId) {
 }
 
 // =========================================================================
-// 🖼️ LIGHTBOX MODAL NAVIGATION LOGIC INTERFACE
+// 🖼️ LIGHTBOX MODAL LOGIC (UPGRADES THUMBNAILS TO HIGH-RES ON CLICK)
 // =========================================================================
 function openLightbox(index) {
     activeImageIndex = index;
     const modal = document.getElementById('lightbox-modal');
     const modalImg = document.getElementById('lightbox-target-img');
-    modalImg.src = currentGalleryArray[activeImageIndex];
+    
+    // Smooth swap: strip '-thumb.jpg' to dynamically point to your huge crystal clear '1.jpg' file!
+    const thumbnailPath = currentGalleryArray[activeImageIndex];
+    const highResPath = thumbnailPath.replace('-thumb.jpg', '.jpg');
+    
+    modalImg.src = highResPath; 
     modal.classList.add('lightbox-active');
     document.body.style.overflow = 'hidden';
 }
@@ -290,11 +298,15 @@ function changeLightboxImage(direction) {
     activeImageIndex += direction;
     if (activeImageIndex >= currentGalleryArray.length) { activeImageIndex = 0; } 
     else if (activeImageIndex < 0) { activeImageIndex = currentGalleryArray.length - 1; }
-    document.getElementById('lightbox-target-img').src = currentGalleryArray[activeImageIndex];
+    
+    const thumbnailPath = currentGalleryArray[activeImageIndex];
+    const highResPath = thumbnailPath.replace('-thumb.jpg', '.jpg');
+    
+    document.getElementById('lightbox-target-img').src = highResPath;
 }
 
 // =========================================================================
-// 🚦 NAVIGATION AND LIFE-CYCLE EVENT LISTENERS
+// 🚦 NAVIGATION AND HYDRATION WORKERS
 // =========================================================================
 document.addEventListener('DOMContentLoaded', () => {
     const currentHash = window.location.hash;
