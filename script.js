@@ -16,7 +16,7 @@ const toursData = [
         shortDescription: "A full architectural walk-through highlighting historical landmarks.",
         longDescription: "Welcome to this beautifully preserved historic property located right in the heart of the downtown district.",
         folderName: "0001/output", 
-        imageFolder: "0001/assets", // Path to where this project's images live
+        imageFolder: "tours/0001/assets", // Path to where this project's images live
         galleryCount: 20,               // 🌟 Just type the total number of images in the folder!
         contact: {
             heading: "Want to schedule a historic walk-through?",
