@@ -11,7 +11,7 @@ const toursData = [
     {
         title: "Luxury Modern Villa",
         description: "High-end real estate presentation showcasing interior flow, ultra-wide resolution depth, and fully customized navigation skins.",
-        folderName: "0001" // Points to tours/luxury-villa/index.html
+        folderName: "0001/output" // Points to tours/luxury-villa/index.html
     }
     // ✨ FUTURE TOURS GO RIGHT HERE:
     // ,{
