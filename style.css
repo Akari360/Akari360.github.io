@@ -74,35 +74,119 @@ header p {
     border-radius: 2px;
 }
 
-/* Dynamic Portfolio Grid Layout */
+/* =========================================================================
+   👥 TWO-COLUMN PREMIUM PORTFOLIO GRID
+   ========================================================================= */
+
+/* Main Gallery Grid container */
 .gallery {
     display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(500px, 1fr));
-    gap: 40px;
-    padding: 40px 0 100px 0;
+    grid-template-columns: repeat(2, 1fr); /* 🌟 Exactly 2 equal cards per row */
+    gap: 30px; /* Clean spacing between cards */
+    padding: 20px 0;
+    max-width: 1200px;
+    margin: 0 auto;
 }
 
-@media (max-width: 600px) {
-    .gallery {
-        grid-template-columns: 1fr;
-    }
-    header h1 { font-size: 2.2rem; }
-}
-
-/* Cards & Pano2VR Container Frame */
+/* Base Card structure forced to matching sizes */
 .card {
-    background-color: var(--bg-card);
+    background: #111827;
     border-radius: 16px;
     overflow: hidden;
-    box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.5);
+    display: flex;
+    flex-direction: column; /* Stacks image top, text bottom */
+    height: 420px; /* 🌟 Forces every single card to be the exact same size */
     border: 1px solid rgba(255, 255, 255, 0.03);
-    transition: all 0.4s cubic-bezier(0.165, 0.84, 0.44, 1);
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.4);
+    cursor: pointer;
+    transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1), 
+                box-shadow 0.3s cubic-bezier(0.4, 0, 0.2, 1),
+                border-color 0.3s ease;
 }
 
 .card:hover {
-    transform: translateY(-8px);
-    border-color: rgba(59, 130, 246, 0.3);
-    box-shadow: 0 25px 30px -5px var(--accent-glow);
+    transform: translateY(-6px);
+    border-color: var(--accent);
+    box-shadow: 0 15px 35px rgba(59, 130, 246, 0.25);
+}
+
+/* Card Image Box Layout */
+.card-preview-image {
+    position: relative;
+    width: 100%;
+    height: 260px; /* Fixed section for the thumbnail image */
+    overflow: hidden;
+    background-color: #060911;
+}
+
+/* 🌟 Crucial fix: shrink and constrain image to box size without stretching */
+.card-preview-image img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover; /* Crops dynamically into the frame like a magazine layout */
+    object-position: center;
+    transition: transform 0.5s ease;
+}
+
+.card:hover .card-preview-image img {
+    transform: scale(1.04);
+}
+
+/* Information Area below the photo */
+.card-info {
+    padding: 24px;
+    display: flex;
+    flex-direction: column;
+    flex-grow: 1; /* Automatically expands to occupy remaining vertical card space */
+    justify-content: space-between;
+}
+
+.card-header-split {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    gap: 15px;
+}
+
+.card-header-split h3 {
+    font-size: 1.3rem;
+    font-weight: 700;
+    margin: 0;
+    color: var(--text-primary);
+    line-height: 1.3;
+}
+
+.card-price {
+    font-weight: 800;
+    color: #4ade80;
+    font-size: 1.2rem;
+    white-space: nowrap;
+}
+
+.card-info p {
+    color: var(--text-secondary);
+    font-size: 0.95rem;
+    line-height: 1.5;
+    margin: 10px 0 0 0;
+    /* Limit description text lines to prevent overflow pushing */
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+}
+
+/* 📱 Responsive view behavior adjustment */
+@media (max-width: 768px) {
+    .gallery {
+        grid-template-columns: 1fr; /* Drop down to 1 card per row only on mobile phones */
+        gap: 20px;
+    }
+    .card {
+        height: 380px; /* Slightly tighter footprint on mobile screens */
+    }
+    .card-preview-image {
+        height: 220px;
+    }
 }
 
 .iframe-container {
