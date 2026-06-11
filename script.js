@@ -17,7 +17,7 @@ const toursData = [
         longDescription: "Welcome to this beautifully preserved historic property located right in the heart of the downtown district.",
         folderName: "0001/output", 
         imageFolder: "tours/0001/assets", // Path to where this project's images live
-        galleryCount: 20,               // 🌟 Just type the total number of images in the folder!
+        galleryCount: 19,               // 🌟 Just type the total number of images in the folder!
         contact: {
             heading: "Want to schedule a historic walk-through?",
             subheading: "Contact our commercial specialist.",
