@@ -7,7 +7,7 @@ const toursData = [
     {
         id: "downtown-tour",
         title: "AlHail Twin Villa",
-        price: "OMR 120,000",
+        price: "OMR 125,000",
         shortDescription: "A wonderful twin villa.",
         longDescription: `<p> Welcome to this beautifully preserved 4 bedroom twin villa located in a very quite decent neighborhood. Featuring completely modernized utility systems.</p>
 		<p><strong>Property Highlights:</strong></p>
@@ -20,10 +20,10 @@ const toursData = [
         folderName: "0001/output",           // Points to tours/0001/output/index.html for 360 viewer
         imageFolder: "tours/0001/assets",    // Scans for your newly generated thumbnails here
         contact: {
-            heading: "Want to schedule a historic walk-through?",
-            subheading: "Contact our commercial specialist.",
-            email: "downtown@akari360.com",
-            phone: "+1 (234) 567-890"
+            heading: "Want to schedule a closer look?",
+            subheading: "Contact us on.",
+            email: "not available",
+            phone: "not available"
         }
     },
     {
@@ -57,8 +57,8 @@ function renderHomepage() {
         <header>
             <div class="container animate-fade-in">
                 <div class="logo">AKARI<span>360</span></div>
-                <h1>Immersive Virtual Spaces</h1>
-                <p>High-resolution, self-hosted interactive 360° tours optimized for web and mobile devices.</p>
+                <h1>Luxury Homes, Fully Immersive</h1>
+                <p>Step into exceptional properties from anywhere in the world.</p>
             </div>
         </header>
         <section class="portfolio-controls container">
