@@ -9,7 +9,7 @@ const toursData = [
         price: "$450,000",
         shortDescription: "A full architectural walk-through highlighting historical landmarks.",
         longDescription: "Welcome to this beautifully preserved historic property located right in the heart of the downtown district. Featuring original brickwork, soaring 14-foot ceilings, and completely modernized utility systems.",
-        folderName: "0001/output",           // Points to tours/0001/index.html
+        folderName: "0001/output",           // Points to tours/0001/output/index.html for 360 viewer
         imageFolder: "tours/0001/assets",    // Looks for 1.jpg, 2.jpg, etc.
         contact: {
             heading: "Want to schedule a historic walk-through?",
@@ -32,37 +32,7 @@ const toursData = [
             email: "luxuryvillas@akari360.com",
             phone: "+1 (987) 654-3210"
         }
-	},
-	{
-        id: "luxury-villa",
-        title: "Luxury Modern Villa",
-        price: "$2,490,000",
-        shortDescription: "High-end real estate presentation showcasing interior flow and views.",
-        longDescription: "An architectural masterpiece overlooking the valley, this luxury villa features an open-concept minimalist design, smart home automation, and a zero-edge infinity pool.",
-        folderName: "0002",           
-        imageFolder: "tours/0002",    
-        contact: {
-            heading: "Inquire about this Luxury Estate",
-            subheading: "Speak directly with our premium residential broker.",
-            email: "luxuryvillas@akari360.com",
-            phone: "+1 (987) 654-3210"
-        }
-		},
-	{
-        id: "luxury-villa",
-        title: "Luxury Modern Villa",
-        price: "$2,490,000",
-        shortDescription: "High-end real estate presentation showcasing interior flow and views.",
-        longDescription: "An architectural masterpiece overlooking the valley, this luxury villa features an open-concept minimalist design, smart home automation, and a zero-edge infinity pool.",
-        folderName: "0002",           
-        imageFolder: "tours/0001",    
-        contact: {
-            heading: "Inquire about this Luxury Estate",
-            subheading: "Speak directly with our premium residential broker.",
-            email: "luxuryvillas@akari360.com",
-            phone: "+1 (987) 654-3210"
-        }
-    },
+    }
 ];
 
 // Active Lightbox State Variables
@@ -70,9 +40,8 @@ let currentGalleryArray = [];
 let activeImageIndex = 0;
 
 // =========================================================================
-// ⚙️ ENGINE: HOME & DETAIL PAGE ROUTER
+// ⚙️ ENGINE: HOME PAGE PORTFOLIO GRID GENERATOR
 // =========================================================================
-
 function renderHomepage() {
     window.location.hash = '';
     
@@ -97,6 +66,7 @@ function renderHomepage() {
     `;
 
     const gridContainer = document.getElementById('portfolio-grid');
+    if (!gridContainer) return;
     
     toursData.forEach(tour => {
         const card = document.createElement('div');
@@ -176,7 +146,7 @@ async function renderProjectPage(projectId) {
     window.location.hash = `project-${projectId}`;
     window.scrollTo({ top: 0, behavior: 'smooth' });
 
-    // Instantly inject the structural template frame with loading indicators to keep UX active
+    // Instantly inject the structural template frame with layout skeletons
     document.body.innerHTML = `
         <div id="detail-sticky-nav" class="sticky-nav-bar">
             <div class="container sticky-nav-content">
@@ -271,7 +241,7 @@ async function renderProjectPage(projectId) {
         </div>
     `;
 
-    // Initialize Sticky Tracker logic
+    // Initialize Sticky Tracker scroll function logic
     window.onscroll = function() {
         const stickyNav = document.getElementById('detail-sticky-nav');
         if (stickyNav) {
@@ -280,8 +250,7 @@ async function renderProjectPage(projectId) {
         }
     };
 
-    // 🌟 RUN BACKGROUND SCAN ASYNCHRONOUSLY AFTER RENDERING CODES
-    // The page displays immediately, and images populate the carousel the instant they are discovered!
+    // Run background image verification scan asynchronously
     autoDiscoverImages(project.imageFolder).then(discoveredImages => {
         currentGalleryArray = discoveredImages;
         const track = document.getElementById('dynamic-carousel-track');
@@ -289,167 +258,4 @@ async function renderProjectPage(projectId) {
         if (track && currentGalleryArray.length > 0) {
             track.innerHTML = currentGalleryArray.map((imgUrl, index) => `
                 <div class="carousel-slide" onclick="openLightbox(${index})">
-                    <img src="${imgUrl}" alt="Gallery view room ${index + 1}">
-                </div>
-            `).join('');
-        } else if (track) {
-            track.innerHTML = `<p style="color:var(--text-secondary); padding:20px;">No additional gallery images found.</p>`;
-        }
-    });
-}
-   
-
-    // Show a loading screen wrapper while the script auto-counts the directory assets
-    document.body.innerHTML = `
-        <div class="container text-center" style="padding: 100px 0;">
-            <div class="loading-spinner" style="position:static; margin: 0 auto 20px auto;"></div>
-            <p style="color: var(--text-secondary);">Analyzing property asset inventory...</p>
-        </div>
-    `;
-
-    // Wait for the scanner to count the images automatically
-    currentGalleryArray = await autoDiscoverImages(project.imageFolder);
-
-    // Build the main detail page layout using the auto-discovered files
-    document.body.innerHTML = `
-        <div id="detail-sticky-nav" class="sticky-nav-bar">
-            <div class="container sticky-nav-content">
-                <button onclick="renderHomepage()" class="btn-back-sticky">← Back</button>
-                <div class="sticky-title">${project.title}</div>
-                <div class="sticky-price">${project.price}</div>
-            </div>
-        </div>
-
-        <header class="detail-header">
-            <div class="container detail-top-bar">
-                <div class="nav-back-wrapper">
-                    <button onclick="renderHomepage()" class="btn-back">← Back to Portfolio</button>
-                </div>
-                <div class="logo-centered-wrapper">
-                    <div class="logo">AKARI<span>360</span></div>
-                </div>
-                <div class="nav-spacer"></div>
-            </div>
-            <div class="container header-main-hero text-center">
-                <h1>${project.title}</h1>
-                <div class="project-hero-price">${project.price}</div>
-            </div>
-        </header>
-
-        <section class="main-360-viewer">
-            <div class="container">
-                <div class="iframe-container large-viewer">
-                    <div class="loading-spinner"></div>
-                    <iframe src="tours/${project.folderName}/index.html" allowfullscreen allow="xr-spatial-tracking; gyroscope; accelerometer"></iframe>
-                </div>
-            </div>
-        </section>
-
-        <section class="carousel-section container">
-            <h2>Photo Gallery</h2>
-            <div class="line-decorator"></div>
-            <div class="carousel-wrapper">
-                <div class="carousel-track">
-                    ${currentGalleryArray.map((imgUrl, index) => `
-                        <div class="carousel-slide" onclick="openLightbox(${index})">
-                            <img src="${imgUrl}" alt="Gallery view room ${index + 1}">
-                        </div>
-                    `).join('')}
-                </div>
-                <div class="carousel-hint">Click to enlarge • Swipe horizontally →</div>
-            </div>
-        </section>
-
-        <main class="container project-text-section">
-            <div class="details-content-card">
-                <h2>Project Overview</h2>
-                <div class="line-decorator"></div>
-                <p class="long-description">${project.longDescription}</p>
-            </div>
-        </main>
-
-        <section class="container contact-section">
-            <div class="contact-card">
-                <div class="contact-accent-bar"></div>
-                <div class="contact-grid">
-                    <div class="contact-info-text">
-                        <h3>${project.contact.heading}</h3>
-                        <p>${project.contact.subheading}</p>
-                    </div>
-                    <div class="contact-details-list">
-                        <div class="contact-item">
-                            <span class="icon">✉️</span>
-                            <a href="mailto:${project.contact.email}">${project.contact.email}</a>
-                        </div>
-                        <div class="contact-item">
-                            <span class="icon">📞</span>
-                            <a href="tel:${project.contact.phone}">${project.contact.phone}</a>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </section>
-
-        <footer>
-            <div class="container"><p>&copy; 2026 Akari360. All rights reserved.</p></div>
-        </footer>
-
-        <div id="lightbox-modal" class="lightbox">
-            <span class="lightbox-close" onclick="closeLightbox()">&times;</span>
-            <button class="lightbox-arrow arrow-left" onclick="changeLightboxImage(-1)">&#10094;</button>
-            <div class="lightbox-content-wrapper">
-                <img id="lightbox-target-img" src="" alt="Enlarged viewport visualization">
-            </div>
-            <button class="lightbox-arrow arrow-right" onclick="changeLightboxImage(1)">&#10095;</button>
-        </div>
-    `;
-
-    window.onscroll = function() {
-        const stickyNav = document.getElementById('detail-sticky-nav');
-        if (stickyNav) {
-            if (window.scrollY > 320) { stickyNav.classList.add('visible'); } 
-            else { stickyNav.classList.remove('visible'); }
-        }
-    };
-}
-
-// =========================================================================
-// 🖼️ LIGHTBOX MODAL NAVIGATION LOGIC INTERFACE
-// =========================================================================
-function openLightbox(index) {
-    activeImageIndex = index;
-    const modal = document.getElementById('lightbox-modal');
-    const modalImg = document.getElementById('lightbox-target-img');
-    modalImg.src = currentGalleryArray[activeImageIndex];
-    modal.classList.add('lightbox-active');
-    document.body.style.overflow = 'hidden';
-}
-
-function closeLightbox() {
-    const modal = document.getElementById('lightbox-modal');
-    modal.classList.remove('lightbox-active');
-    document.body.style.overflow = 'auto';
-}
-
-function changeLightboxImage(direction) {
-    activeImageIndex += direction;
-    if (activeImageIndex >= currentGalleryArray.length) { activeImageIndex = 0; } 
-    else if (activeImageIndex < 0) { activeImageIndex = currentGalleryArray.length - 1; }
-    document.getElementById('lightbox-target-img').src = currentGalleryArray[activeImageIndex];
-}
-
-document.addEventListener('DOMContentLoaded', () => {
-    const currentHash = window.location.hash;
-    if (currentHash.startsWith('#project-')) {
-        const pId = currentHash.replace('#project-', '');
-        renderProjectPage(pId);
-    } else { renderHomepage(); }
-});
-
-window.addEventListener('popstate', () => {
-    const currentHash = window.location.hash;
-    if (currentHash.startsWith('#project-')) {
-        const pId = currentHash.replace('#project-', '');
-        renderProjectPage(pId);
-    } else { renderHomepage(); }
-});
+                    <img src="${imgUrl}" alt="Gallery
