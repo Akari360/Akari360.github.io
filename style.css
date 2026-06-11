@@ -178,3 +178,239 @@ footer {
     from { opacity: 0; transform: translateY(20px); }
     to { opacity: 1; transform: translateY(0); }
 }
+/* Helper alignment variables */
+.text-center { text-align: center; }
+
+/* Detail Header Layout overrides */
+.detail-header {
+    background: radial-gradient(circle at bottom, #131c2e 0%, var(--bg-main) 100%);
+    padding: 40px 0 60px 0;
+    border-bottom: none;
+}
+
+.detail-top-bar {
+    display: grid;
+    grid-template-columns: 1fr auto 1fr;
+    align-items: center;
+    width: 90%;
+    margin-bottom: 50px;
+}
+
+.logo-centered-wrapper .logo {
+    margin-bottom: 0;
+    font-size: 1.8rem;
+}
+
+/* Explicit prominent back button styling */
+.btn-back {
+    background: #1e293b;
+    border: 2px solid var(--accent);
+    color: var(--text-primary);
+    padding: 10px 22px;
+    border-radius: 30px;
+    cursor: pointer;
+    font-weight: 600;
+    box-shadow: 0 4px 14px rgba(59, 130, 246, 0.2);
+    transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.btn-back:hover {
+    background: var(--accent);
+    transform: translateX(-4px);
+    box-shadow: 0 6px 20px var(--accent-glow);
+}
+
+/* Hero Typography stack configuration */
+.header-main-hero h1 {
+    font-size: 3.5rem;
+    font-weight: 800;
+    margin-bottom: 15px;
+    letter-spacing: -1px;
+}
+
+.project-hero-price {
+    font-size: 3rem;
+    font-weight: 900;
+    color: #4ade80; /* Radiant emphasis green for currency sizing */
+    text-shadow: 0 4px 20px rgba(74, 222, 128, 0.2);
+}
+
+/* Sticky Header Bar styling logic */
+.sticky-nav-bar {
+    position: sticky;
+    top: 0;
+    width: 100%;
+    background: rgba(11, 15, 25, 0.85);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+    z-index: 100;
+    padding: 15px 0;
+}
+
+.sticky-nav-content {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.sticky-title {
+    font-size: 1.1rem;
+    font-weight: 600;
+    color: var(--text-primary);
+}
+
+.sticky-price {
+    font-size: 1.3rem;
+    font-weight: 800;
+    color: #4ade80;
+}
+
+/* Horizontal Picture Carousel System */
+.carousel-section {
+    padding: 40px 0;
+}
+
+.carousel-wrapper {
+    position: relative;
+    margin-top: 25px;
+}
+
+.carousel-track {
+    display: flex;
+    gap: 20px;
+    overflow-x: auto;
+    scroll-snap-type: x mandatory;
+    padding: 10px 5px 25px 5px;
+    scrollbar-width: thin; /* Smooth styling support for modern browsers */
+    scrollbar-color: var(--accent) rgba(0,0,0,0);
+}
+
+/* Custom scrollbar rendering behaviors for Webkit engines */
+.carousel-track::-webkit-scrollbar {
+    height: 6px;
+}
+.carousel-track::-webkit-scrollbar-thumb {
+    background-color: rgba(59, 130, 246, 0.4);
+    border-radius: 10px;
+}
+
+.carousel-slide {
+    flex: 0 0 calc(33.333% - 14px); /* Three items wide layout structure */
+    scroll-snap-align: start;
+    height: 250px;
+    border-radius: 12px;
+    overflow: hidden;
+    box-shadow: 0 10px 20px rgba(0,0,0,0.4);
+    border: 1px solid rgba(255,255,255,0.03);
+}
+
+.carousel-slide img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    cursor: pointer;
+    transition: transform 0.3s ease;
+}
+
+.carousel-slide img:hover {
+    transform: scale(1.03);
+}
+
+.carousel-hint {
+    text-align: right;
+    font-size: 0.8rem;
+    color: var(--text-secondary);
+    margin-top: 5px;
+}
+
+@media (max-width: 900px) {
+    .carousel-slide { flex: 0 0 calc(50% - 10px); } /* Show two items on smaller viewports */
+    .header-main-hero h1 { font-size: 2.5rem; }
+    .project-hero-price { font-size: 2.2rem; }
+}
+@media (max-width: 600px) {
+    .carousel-slide { flex: 0 0 100%; } /* Show single clean slide elements on phones */
+    .detail-top-bar { grid-template-columns: 1fr; gap: 20px; justify-items: center; }
+    .nav-spacer { display: none; }
+}
+
+/* Descriptive Layout Structure adjustments */
+.project-text-section {
+    padding: 30px 0;
+}
+
+.details-content-card {
+    background: #111827;
+    padding: 40px;
+    border-radius: 16px;
+    border: 1px solid rgba(255,255,255,0.02);
+}
+
+/* Contact Module Panel Cards styling */
+.contact-section {
+    padding: 40px 0 100px 0;
+}
+
+.contact-card {
+    position: relative;
+    background: linear-gradient(135deg, #131c2e 0%, #0d1527 100%);
+    border-radius: 16px;
+    overflow: hidden;
+    box-shadow: 0 20px 40px rgba(0,0,0,0.5);
+    border: 1px solid rgba(59, 130, 246, 0.1);
+}
+
+.contact-accent-bar {
+    position: absolute;
+    top: 0; left: 0; width: 100%; height: 4px;
+    background: linear-gradient(90deg, var(--accent) 0%, #4ade80 100%);
+}
+
+.contact-grid {
+    padding: 40px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 30px;
+    flex-wrap: wrap;
+}
+
+.contact-info-text h3 {
+    font-size: 1.6rem;
+    margin-bottom: 8px;
+    font-weight: 700;
+}
+
+.contact-info-text p {
+    color: var(--text-secondary);
+    max-width: 500px;
+}
+
+.contact-details-list {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+.contact-item {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    font-size: 1.1rem;
+}
+
+.contact-item .icon {
+    font-size: 1.3rem;
+}
+
+.contact-item a {
+    color: var(--text-primary);
+    text-decoration: none;
+    font-weight: 600;
+    transition: color 0.2s ease;
+}
+
+.contact-item a:hover {
+    color: var(--accent);
+}

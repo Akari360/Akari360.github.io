@@ -93,25 +93,39 @@ function renderProjectPage(projectId) {
     const project = toursData.find(p => p.id === projectId);
     if (!project) return;
 
-    // Push state to browser history so users can use the browser "Back" button
+    // Push state to browser history for backward navigation
     window.location.hash = `project-${projectId}`;
     window.scrollTo({ top: 0, behavior: 'smooth' });
 
     // Build the detail template
     document.body.innerHTML = `
-        <!-- Custom Detail Page Navigation Header -->
-        <header class="detail-header">
-            <div class="container detail-nav-container">
-                <button onclick="renderHomepage()" class="btn-back">← Back to Portfolio</button>
-                <div class="logo">AKARI<span>360</span></div>
+        <!-- Sticky Floating Navigation bar that activates when scrolling down -->
+        <div class="sticky-nav-bar">
+            <div class="container sticky-nav-content">
+                <div class="sticky-title">${project.title}</div>
+                <div class="sticky-price">${project.price}</div>
             </div>
-            <div class="container header-title-row">
+        </div>
+
+        <!-- Custom Detail Page Branding Header -->
+        <header class="detail-header">
+            <div class="container detail-top-bar">
+                <div class="nav-back-wrapper">
+                    <button onclick="renderHomepage()" class="btn-back">← Back to Portfolio</button>
+                </div>
+                <div class="logo-centered-wrapper">
+                    <div class="logo">AKARI<span>360</span></div>
+                </div>
+                <div class="nav-spacer"></div> <!-- Balance helper for alignment -->
+            </div>
+            
+            <div class="container header-main-hero text-center">
                 <h1>${project.title}</h1>
-                <div class="project-price-tag">${project.price}</div>
+                <div class="project-hero-price">${project.price}</div>
             </div>
         </header>
 
-        <!-- 360 Panoramic Main View Frame -->
+        <!-- 360 Panoramic Frame Frame -->
         <section class="main-360-viewer">
             <div class="container">
                 <div class="iframe-container large-viewer">
@@ -125,26 +139,53 @@ function renderProjectPage(projectId) {
             </div>
         </section>
 
-        <!-- Project Details & Photo Gallery -->
-        <main class="container project-details-layout">
-            <section class="details-text-block">
-                <h2>Project Overview</h2>
-                <div class="line-decorator"></div>
-                <p class="long-description">${project.longDescription}</p>
-            </section>
-
-            <section class="details-gallery-block">
-                <h2>Photo Gallery</h2>
-                <div class="line-decorator"></div>
-                <div class="static-photo-grid">
+        <!-- Image Gallery Carousel Section -->
+        <section class="carousel-section container">
+            <h2>Photo Gallery</h2>
+            <div class="line-decorator"></div>
+            <div class="carousel-wrapper">
+                <div class="carousel-track">
                     ${project.gallery.map(imgUrl => `
-                        <div class="gallery-photo-wrapper">
-                            <img src="${imgUrl}" alt="Gallery image for ${project.title}" onclick="window.open(this.src, '_blank')">
+                        <div class="carousel-slide">
+                            <img src="${imgUrl}" alt="Gallery room view" onclick="window.open(this.src, '_blank')">
                         </div>
                     `).join('')}
                 </div>
-            </section>
+                <div class="carousel-hint">Swipe or Scroll Horizontally →</div>
+            </div>
+        </section>
+
+        <!-- Project Details Block -->
+        <main class="container project-text-section">
+            <div class="details-content-card">
+                <h2>Project Overview</h2>
+                <div class="line-decorator"></div>
+                <p class="long-description">${project.longDescription}</p>
+            </div>
         </main>
+
+        <!-- Contact Information Premium Block Card -->
+        <section class="container contact-section">
+            <div class="contact-card">
+                <div class="contact-accent-bar"></div>
+                <div class="contact-grid">
+                    <div class="contact-info-text">
+                        <h3>Interested in this property?</h3>
+                        <p>Schedule a private walk-through or request premium raw resolution assets for architectural production pipelines.</p>
+                    </div>
+                    <div class="contact-details-list">
+                        <div class="contact-item">
+                            <span class="icon">✉️</span>
+                            <a href="mailto:info@akari360.com">info@akari360.com</a>
+                        </div>
+                        <div class="contact-item">
+                            <span class="icon">📞</span>
+                            <a href="tel:+1234567890">+1 (234) 567-890</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
 
         <footer>
             <div class="container"><p>&copy; 2026 Akari360. All rights reserved.</p></div>
