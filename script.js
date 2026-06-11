@@ -9,14 +9,14 @@ const toursData = [
         price: "$450,000",
         shortDescription: "A full architectural walk-through highlighting historical landmarks.",
         longDescription: "Welcome to this beautifully preserved historic property located right in the heart of the downtown district. Featuring original brickwork, soaring 14-foot ceilings, and completely modernized utility systems, this space blends classic charm with contemporary convenience. Ideal for commercial boutique operations or a premium residential loft conversion.",
-        folderName: "0001/output", // Your Pano2VR folder name
+        folderName: "0001/output", 
         gallery: [
-            "https://images.unsplash.com/photo-1513694203232-719a280e022f?w=800", // Replace with your image paths
-            "https://images.unsplash.com/photo-1484154218962-a197022b5858?w=800",
-            "https://images.unsplash.com/photo-1505691938895-1758d7feb511?w=800",
-			"https://images.unsplash.com/photo-1613490493576-7fde63acd811?w=800",
-            "https://images.unsplash.com/photo-1512917774080-9991f1c4c750?w=800",
-            "https://images.unsplash.com/photo-1613977257363-707ba9348227?w=800"
+            "https://images.unsplash.com/photo-1513694203232-719a280e022f?w=1200", 
+            "https://images.unsplash.com/photo-1484154218962-a197022b5858?w=1200",
+            "https://images.unsplash.com/photo-1505691938895-1758d7feb511?w=1200",
+			"https://images.unsplash.com/photo-1613490493576-7fde63acd811?w=1200",
+            "https://images.unsplash.com/photo-1512917774080-9991f1c4c750?w=1200",
+            "https://images.unsplash.com/photo-1613977257363-707ba9348227?w=1200"
         ]
     },
     {
@@ -27,22 +27,24 @@ const toursData = [
         longDescription: "An architectural masterpiece overlooking the valley, this luxury villa features an open-concept minimalist design, smart home automation, a zero-edge infinity pool, and expansive floor-to-ceiling glass walls that frame panoramic sunset views. Every detail has been meticulously crafted for world-class luxury living.",
         folderName: "luxury-villa", 
         gallery: [
-            "https://images.unsplash.com/photo-1613490493576-7fde63acd811?w=800",
-            "https://images.unsplash.com/photo-1512917774080-9991f1c4c750?w=800",
-            "https://images.unsplash.com/photo-1613977257363-707ba9348227?w=800"
+            "https://images.unsplash.com/photo-1613490493576-7fde63acd811?w=1200",
+            "https://images.unsplash.com/photo-1512917774080-9991f1c4c750?w=1200",
+            "https://images.unsplash.com/photo-1613977257363-707ba9348227?w=1200"
         ]
     }
 ];
+
+// Active Lightbox State Variables
+let currentGalleryArray = [];
+let activeImageIndex = 0;
 
 // =========================================================================
 // ⚙️ ENGINE: HOME & DETAIL PAGE ROUTER
 // =========================================================================
 
 function renderHomepage() {
-    // Reset URL hash if returning home
     window.location.hash = '';
     
-    // Change page layout back to standard portfolio body
     document.body.innerHTML = `
         <header>
             <div class="container animate-fade-in">
@@ -71,12 +73,10 @@ function renderHomepage() {
     toursData.forEach(tour => {
         const card = document.createElement('div');
         card.className = 'card';
-        // Make the entire card clickable
         card.onclick = () => renderProjectPage(tour.id);
 
         card.innerHTML = `
             <div class="card-preview-image">
-                <!-- Displays the first image from your gallery as a beautiful thumbnail cover -->
                 <img src="${tour.gallery[0]}" alt="${tour.title}" loading="lazy">
                 <div class="view-tour-overlay"><span>Explore Project ✨</span></div>
             </div>
@@ -96,21 +96,21 @@ function renderProjectPage(projectId) {
     const project = toursData.find(p => p.id === projectId);
     if (!project) return;
 
-    // Push state to browser history for backward navigation
     window.location.hash = `project-${projectId}`;
     window.scrollTo({ top: 0, behavior: 'smooth' });
 
-    // Build the detail template
+    // Store gallery array link for modal usage
+    currentGalleryArray = project.gallery;
+
     document.body.innerHTML = `
-        <!-- Sticky Floating Navigation bar that activates when scrolling down -->
         <div class="sticky-nav-bar">
             <div class="container sticky-nav-content">
+                <button onclick="renderHomepage()" class="btn-back-sticky">← Back</button>
                 <div class="sticky-title">${project.title}</div>
                 <div class="sticky-price">${project.price}</div>
             </div>
         </div>
 
-        <!-- Custom Detail Page Branding Header -->
         <header class="detail-header">
             <div class="container detail-top-bar">
                 <div class="nav-back-wrapper">
@@ -119,7 +119,7 @@ function renderProjectPage(projectId) {
                 <div class="logo-centered-wrapper">
                     <div class="logo">AKARI<span>360</span></div>
                 </div>
-                <div class="nav-spacer"></div> <!-- Balance helper for alignment -->
+                <div class="nav-spacer"></div>
             </div>
             
             <div class="container header-main-hero text-center">
@@ -128,7 +128,6 @@ function renderProjectPage(projectId) {
             </div>
         </header>
 
-        <!-- 360 Panoramic Frame Frame -->
         <section class="main-360-viewer">
             <div class="container">
                 <div class="iframe-container large-viewer">
@@ -142,23 +141,21 @@ function renderProjectPage(projectId) {
             </div>
         </section>
 
-        <!-- Image Gallery Carousel Section -->
         <section class="carousel-section container">
             <h2>Photo Gallery</h2>
             <div class="line-decorator"></div>
             <div class="carousel-wrapper">
                 <div class="carousel-track">
-                    ${project.gallery.map(imgUrl => `
-                        <div class="carousel-slide">
-                            <img src="${imgUrl}" alt="Gallery room view" onclick="window.open(this.src, '_blank')">
+                    ${project.gallery.map((imgUrl, index) => `
+                        <div class="carousel-slide" onclick="openLightbox(${index})">
+                            <img src="${imgUrl}" alt="Gallery view room ${index + 1}">
                         </div>
                     `).join('')}
                 </div>
-                <div class="carousel-hint">Swipe or Scroll Horizontally →</div>
+                <div class="carousel-hint">Click to enlarge • Swipe horizontally →</div>
             </div>
         </section>
 
-        <!-- Project Details Block -->
         <main class="container project-text-section">
             <div class="details-content-card">
                 <h2>Project Overview</h2>
@@ -167,14 +164,13 @@ function renderProjectPage(projectId) {
             </div>
         </main>
 
-        <!-- Contact Information Premium Block Card -->
         <section class="container contact-section">
             <div class="contact-card">
                 <div class="contact-accent-bar"></div>
                 <div class="contact-grid">
                     <div class="contact-info-text">
                         <h3>Interested in this property?</h3>
-                        <p>Schedule a private walk-through or request premium raw resolution assets for architectural production pipelines.</p>
+                        <p>Schedule a private walk-through or request premium raw resolution assets.</p>
                     </div>
                     <div class="contact-details-list">
                         <div class="contact-item">
@@ -193,7 +189,49 @@ function renderProjectPage(projectId) {
         <footer>
             <div class="container"><p>&copy; 2026 Akari360. All rights reserved.</p></div>
         </footer>
+
+        <div id="lightbox-modal" class="lightbox">
+            <span class="lightbox-close" onclick="closeLightbox()">&times;</span>
+            <button class="lightbox-arrow arrow-left" onclick="changeLightboxImage(-1)">&#10094;</button>
+            <div class="lightbox-content-wrapper">
+                <img id="lightbox-target-img" src="" alt="Enlarged visualization viewport">
+            </div>
+            <button class="lightbox-arrow arrow-right" onclick="changeLightboxImage(1)">&#10095;</button>
+        </div>
     `;
+}
+
+// =========================================================================
+// 🖼️ LIGHTBOX MODAL NAVIGATION LOGIC INTERFACE
+// =========================================================================
+
+function openLightbox(index) {
+    activeImageIndex = index;
+    const modal = document.getElementById('lightbox-modal');
+    const modalImg = document.getElementById('lightbox-target-img');
+    
+    modalImg.src = currentGalleryArray[activeImageIndex];
+    modal.classList.add('lightbox-active');
+    document.body.style.overflow = 'hidden'; // Lock background scrolling
+}
+
+function closeLightbox() {
+    const modal = document.getElementById('lightbox-modal');
+    modal.classList.remove('lightbox-active');
+    document.body.style.overflow = 'auto'; // Restore background scrolling
+}
+
+function changeLightboxImage(direction) {
+    activeImageIndex += direction;
+    
+    // Looping behaviors tracking array boundaries
+    if (activeImageIndex >= currentGalleryArray.length) {
+        activeImageIndex = 0;
+    } else if (activeImageIndex < 0) {
+        activeImageIndex = currentGalleryArray.length - 1;
+    }
+    
+    document.getElementById('lightbox-target-img').src = currentGalleryArray[activeImageIndex];
 }
 
 // Handle initializing the correct page on load
