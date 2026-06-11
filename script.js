@@ -245,4 +245,72 @@ async function renderProjectPage(projectId) {
     window.onscroll = function() {
         const stickyNav = document.getElementById('detail-sticky-nav');
         if (stickyNav) {
-            if (window.scrollY > 320) { stickyNav.classList
+            if (window.scrollY > 320) { stickyNav.classList.add('visible'); } 
+            else { stickyNav.classList.remove('visible'); }
+        }
+    };
+
+    // Run background image verification scan asynchronously
+    autoDiscoverImages(project.imageFolder).then(discoveredImages => {
+        currentGalleryArray = discoveredImages;
+        const track = document.getElementById('dynamic-carousel-track');
+        
+        if (track && currentGalleryArray.length > 0) {
+            track.innerHTML = currentGalleryArray.map((imgUrl, index) => `
+                <div class="carousel-slide" onclick="openLightbox(${index})">
+                    <img src="${imgUrl}" alt="Gallery view room ${index + 1}">
+                </div>
+            `).join('');
+        } else if (track) {
+            track.innerHTML = `<p style="color:var(--text-secondary); padding:20px;">No additional gallery images found.</p>`;
+        }
+    });
+}
+
+// =========================================================================
+// 🖼️ LIGHTBOX MODAL NAVIGATION LOGIC INTERFACE
+// =========================================================================
+function openLightbox(index) {
+    activeImageIndex = index;
+    const modal = document.getElementById('lightbox-modal');
+    const modalImg = document.getElementById('lightbox-target-img');
+    modalImg.src = currentGalleryArray[activeImageIndex];
+    modal.classList.add('lightbox-active');
+    document.body.style.overflow = 'hidden';
+}
+
+function closeLightbox() {
+    const modal = document.getElementById('lightbox-modal');
+    modal.classList.remove('lightbox-active');
+    document.body.style.overflow = 'auto';
+}
+
+function changeLightboxImage(direction) {
+    activeImageIndex += direction;
+    if (activeImageIndex >= currentGalleryArray.length) { activeImageIndex = 0; } 
+    else if (activeImageIndex < 0) { activeImageIndex = currentGalleryArray.length - 1; }
+    document.getElementById('lightbox-target-img').src = currentGalleryArray[activeImageIndex];
+}
+
+// =========================================================================
+// 🚦 NAVIGATION AND LIFE-CYCLE EVENT LISTENERS
+// =========================================================================
+document.addEventListener('DOMContentLoaded', () => {
+    const currentHash = window.location.hash;
+    if (currentHash.startsWith('#project-')) {
+        const pId = currentHash.replace('#project-', '');
+        renderProjectPage(pId);
+    } else { 
+        renderHomepage(); 
+    }
+});
+
+window.addEventListener('popstate', () => {
+    const currentHash = window.location.hash;
+    if (currentHash.startsWith('#project-')) {
+        const pId = currentHash.replace('#project-', '');
+        renderProjectPage(pId);
+    } else { 
+        renderHomepage(); 
+    }
+});
