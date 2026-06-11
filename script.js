@@ -6,10 +6,17 @@
 const toursData = [
     {
         id: "downtown-tour",
-        title: "Historic Downtown Exploration",
-        price: "$450,000",
-        shortDescription: "A full architectural walk-through highlighting historical landmarks.",
-        longDescription: "Welcome to this beautifully preserved historic property located right in the heart of the downtown district. Featuring original brickwork, soaring 14-foot ceilings, and completely modernized utility systems.",
+        title: "AlHail Twin Villa",
+        price: "OMR 120,000",
+        shortDescription: "A wonderful twin villa.",
+        longDescription: '<p> Welcome to this beautifully preserved 4 bedroom twin villa located in a very quite decent neighborhood. Featuring completely modernized utility systems.</p>
+		<p><strong>Property Highlights:</strong></p>
+		<ul>
+		<li>Number of Bedrooms: 4</li>
+		<li>Number of Bathrooms: 5</li>
+		<li>Building Area: 331.86 square meter</li>
+		<li>land size: 300 square meter</li>
+		</ul>',
         folderName: "0001/output",           // Points to tours/0001/output/index.html for 360 viewer
         imageFolder: "tours/0001/assets",    // Scans for your newly generated thumbnails here
         contact: {
