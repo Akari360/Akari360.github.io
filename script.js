@@ -4,8 +4,8 @@
 const toursData = [
     {
         id: "downtown-tour",
-        title: "Historic Downtown Exploration",
-        price: "$450,000",
+        title: "Al Hail Twin Villa",
+        price: "OMR 125,000",
         shortDescription: "A full architectural walk-through highlighting historical landmarks.",
         longDescription: `<p> Welcome to this beautifully preserved 4 bedroom twin villa located in a very quite decent neighborhood. Featuring completely modernized utility systems.</p>
 		<p><strong>Property Highlights:</strong></p>
@@ -18,36 +18,36 @@ const toursData = [
         folderName: "0001/output",           
         imageFolder: "tours/0001/assets",    
         contact: {
-            heading: "Want to schedule a historic walk-through?",
+            heading: "Want to schedule a private walk-through?",
             subheading: "Contact our commercial specialist.",
-            email: "downtown@akari360.com",
-            phone: "+1 (234) 567-890"
+            email: "Not Available",
+            phone: "Not Available"
         }
     },
-    {
-        id: "luxury-villa",
-        title: "Luxury Modern Villa",
-        price: "$2,490,000",
-        shortDescription: "High-end real estate presentation showcasing interior flow and views.",
-        longDescription: `
-            <p>An architectural masterpiece overlooking the valley, this luxury villa features an open-concept minimalist design, smart home automation, and panoramic glass framing.</p>
-            
-            <p><strong>Key Premium Details:</strong></p>
-            <ul>
-                <li>Zero-edge perimeter panoramic infinity pool</li>
-                <li>Integrated smart-home security and ambient environments</li>
-                <li>Professional-grade chef's kitchen configuration</li>
-            </ul>
-        `,           
-        folderName: "0002",           
-        imageFolder: "tours/0002",    
-        contact: {
-            heading: "Inquire about this Luxury Estate",
-            subheading: "Speak directly with our premium residential broker.",
-            email: "luxuryvillas@akari360.com",
-            phone: "+1 (987) 654-3210"
-        }
-    }
+   // {
+        //id: "luxury-villa",
+        //title: "Luxury Modern Villa",
+        //price: "$2,490,000",
+        //shortDescription: "High-end real estate presentation showcasing interior flow and views.",
+        //longDescription: `
+          //  <p>An architectural masterpiece overlooking the valley, this luxury villa features an open-concept minimalist design, smart home automation, and panoramic glass framing.</p>
+            //
+            //<p><strong>Key Premium Details:</strong></p>
+            //<ul>
+              //  <li>Zero-edge perimeter panoramic infinity pool</li>
+                //<li>Integrated smart-home security and ambient environments</li>
+                //<li>Professional-grade chef's kitchen configuration</li>
+            //</ul>
+       // `,           
+        //folderName: "0002",           
+        //imageFolder: "tours/0002",    
+        //contact: {
+         //   heading: "Inquire about this Luxury Estate",
+        //    subheading: "Speak directly with our premium residential broker.",
+      //      email: "luxuryvillas@akari360.com",
+    //        phone: "+1 (987) 654-3210"
+  //      }
+  //  }
 ];
 
 let currentGalleryArray = [];
@@ -171,16 +171,21 @@ function renderProjectPage(projectId) {
         </div>
 
         <header class="detail-header">
+            <!-- 👑 CENTERING LAYOUT INNER WRAPPER -->
             <div class="container detail-top-bar">
                 <div class="nav-back-wrapper">
                     <button onclick="renderHomepage()" class="btn-back">← Back to Portfolio</button>
                 </div>
-                <div class="logo-centered-wrapper" onclick="renderHomepage()" style="cursor:pointer;">
+                
+                <div class="logo-centered-wrapper" onclick="renderHomepage()">
                     <img src="logo.jpg" alt="AKARI 360 Logo" class="site-logo-small">
                 </div>
+                
+                <!-- This empty spacer balances out the back button perfectly on the right side -->
                 <div class="nav-spacer"></div>
             </div>
-            <div class="container header-main-hero text-center">
+            
+            <div class="container header-main-hero text-center" style="text-align: center; margin-top: 40px;">
                 <h1>${project.title}</h1>
                 <div class="project-hero-price">${project.price}</div>
             </div>
