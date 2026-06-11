@@ -212,7 +212,7 @@ function renderProjectPage(projectId) {
             <div class="details-content-card">
                 <h2>Project Overview</h2>
                 <div class="line-decorator"></div>
-                <p class="long-description">${project.longDescription}</p>
+                <div class="long-description">${project.longDescription}</div>
             </div>
         </main>
 
