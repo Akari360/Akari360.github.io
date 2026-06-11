@@ -297,11 +297,7 @@ async function renderProjectPage(projectId) {
         }
     });
 }
-    const project = toursData.find(p => p.id === projectId);
-    if (!project) return;
-
-    window.location.hash = `project-${projectId}`;
-    window.scrollTo({ top: 0, behavior: 'smooth' });
+   
 
     // Show a loading screen wrapper while the script auto-counts the directory assets
     document.body.innerHTML = `
