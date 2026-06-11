@@ -3,41 +3,41 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Akari 360</title>
+    <title>Akari360 | Virtual Tour Portfolio</title>
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
 
-    <!-- Header -->
+    <!-- Hero Header -->
     <header>
-        <div class="container">
-            <h1>Immersive 360° Tour Guide</h1>
-            <p>Self-hosted, highly custom virtual tours.</p>
+        <div class="container animate-fade-in">
+            <div class="logo">AKARI<span>360</span></div>
+            <h1>Immersive Virtual Spaces</h1>
+            <p>High-resolution, self-hosted interactive 360° tours optimized for web and mobile devices.</p>
         </div>
     </header>
 
-    <!-- Gallery Section -->
-    <main class="container">
-        <section class="gallery">
-            
-            <!-- Self-Hosted Pano2VR Tour Card -->
-            <div class="card">
-                <div class="iframe-container">
-                    <!-- Points directly to your subfolder's Pano2VR index.html -->
-                    <iframe src="/0001/output/index.html" allowfullscreen allow="xr-spatial-tracking; gyroscope; accelerometer"></iframe>
-                </div>
-                <div class="card-info">
-                    <h3>Historic Downtown Exploration</h3>
-                    <p>A fully interactive, high-resolution tour exported straight out of Pano2VR and hosted completely free.</p>
-                </div>
-            </div>
+    <!-- Filter & Analytics Controls (Optional expansion room) -->
+    <section class="portfolio-controls container">
+        <h2>Featured Projects</h2>
+        <div class="line-decorator"></div>
+    </section>
 
-        </section>
+    <!-- Dynamic Portfolio Grid -->
+    <main class="container">
+        <div class="gallery" id="portfolio-grid">
+            <!-- JavaScript will automatically inject your Pano2VR tour cards here -->
+        </div>
     </main>
 
+    <!-- Footer -->
     <footer>
-        <p>&copy; 2026 360 Tour Guide. Built to capture every angle.</p>
+        <div class="container">
+            <p>&copy; 2026 Akari360. Built for seamless spatial immersion.</p>
+        </div>
     </footer>
 
+    <!-- The Content Engine Script -->
+    <script src="script.js"></script>
 </body>
 </html>
