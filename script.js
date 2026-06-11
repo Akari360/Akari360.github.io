@@ -245,17 +245,4 @@ async function renderProjectPage(projectId) {
     window.onscroll = function() {
         const stickyNav = document.getElementById('detail-sticky-nav');
         if (stickyNav) {
-            if (window.scrollY > 320) { stickyNav.classList.add('visible'); } 
-            else { stickyNav.classList.remove('visible'); }
-        }
-    };
-
-    // Run background image verification scan asynchronously
-    autoDiscoverImages(project.imageFolder).then(discoveredImages => {
-        currentGalleryArray = discoveredImages;
-        const track = document.getElementById('dynamic-carousel-track');
-        
-        if (track && currentGalleryArray.length > 0) {
-            track.innerHTML = currentGalleryArray.map((imgUrl, index) => `
-                <div class="carousel-slide" onclick="openLightbox(${index})">
-                    <img src="${imgUrl}" alt="Gallery
+            if (window.scrollY > 320) { stickyNav.classList
