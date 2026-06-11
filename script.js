@@ -2,35 +2,47 @@
 // 📂 UPGRADED TOUR DATA REPOSITORY
 // Add your pricing, description, 360 folder, and image gallery paths here.
 // =========================================================================
+// =========================================================================
+// 📂 UPGRADED TOUR DATA REPOSITORY (With Project-Specific Contact Info)
+// =========================================================================
 const toursData = [
     {
         id: "downtown-tour",
         title: "Historic Downtown Exploration",
         price: "$450,000",
         shortDescription: "A full architectural walk-through highlighting historical landmarks.",
-        longDescription: "Welcome to this beautifully preserved historic property located right in the heart of the downtown district. Featuring original brickwork, soaring 14-foot ceilings, and completely modernized utility systems, this space blends classic charm with contemporary convenience. Ideal for commercial boutique operations or a premium residential loft conversion.",
+        longDescription: "Welcome to this beautifully preserved historic property located right in the heart of the downtown district. Featuring original brickwork, soaring 14-foot ceilings, and completely modernized utility systems.",
         folderName: "0001/output", 
         gallery: [
-            "https://images.unsplash.com/photo-1513694203232-719a280e022f?w=1200", 
-            "https://images.unsplash.com/photo-1484154218962-a197022b5858?w=1200",
-            "https://images.unsplash.com/photo-1505691938895-1758d7feb511?w=1200",
-			"https://images.unsplash.com/photo-1613490493576-7fde63acd811?w=1200",
-            "https://images.unsplash.com/photo-1512917774080-9991f1c4c750?w=1200",
-            "https://images.unsplash.com/photo-1613977257363-707ba9348227?w=1200"
-        ]
+            "0001/assets"
+       
+        // ✉️ Dynamic Contact Info for this specific project:
+        contact: {
+            heading: "Want to schedule a historic walk-through?",
+            subheading: "Contact our commercial specialist to arrange a private viewing or request physical floor plans.",
+            email: "downtown@akari360.com",
+            phone: "+1 (234) 567-890"
+        }
     },
     {
         id: "luxury-villa",
         title: "Luxury Modern Villa",
         price: "$2,490,000",
         shortDescription: "High-end real estate presentation showcasing interior flow and views.",
-        longDescription: "An architectural masterpiece overlooking the valley, this luxury villa features an open-concept minimalist design, smart home automation, a zero-edge infinity pool, and expansive floor-to-ceiling glass walls that frame panoramic sunset views. Every detail has been meticulously crafted for world-class luxury living.",
+        longDescription: "An architectural masterpiece overlooking the valley, this luxury villa features an open-concept minimalist design, smart home automation, a zero-edge infinity pool, and expansive floor-to-ceiling glass walls.",
         folderName: "luxury-villa", 
         gallery: [
-            "https://images.unsplash.com/photo-1613490493576-7fde63acd811?w=1200",
-            "https://images.unsplash.com/photo-1512917774080-9991f1c4c750?w=1200",
-            "https://images.unsplash.com/photo-1613977257363-707ba9348227?w=1200"
-        ]
+            "images/villa/exterior.jpg", 
+            "images/villa/kitchen.jpg",
+            "images/villa/pool.jpg"
+        ],
+        // ✉️ Different Dynamic Contact Info for this specific project:
+        contact: {
+            heading: "Inquire about this Luxury Estate",
+            subheading: "Speak directly with our premium residential broker for financing options and private asset packages.",
+            email: "luxuryvillas@akari360.com",
+            phone: "+1 (987) 654-3210"
+        }
     }
 ];
 
@@ -163,22 +175,22 @@ function renderProjectPage(projectId) {
             </div>
         </main>
 
-        <section class="container contact-section">
+       <section class="container contact-section">
             <div class="contact-card">
                 <div class="contact-accent-bar"></div>
                 <div class="contact-grid">
                     <div class="contact-info-text">
-                        <h3>Interested in this property?</h3>
-                        <p>Schedule a private walk-through or request premium raw resolution assets.</p>
+                        <h3>${project.contact.heading}</h3>
+                        <p>${project.contact.subheading}</p>
                     </div>
                     <div class="contact-details-list">
                         <div class="contact-item">
                             <span class="icon">✉️</span>
-                            <a href="mailto:info@akari360.com">info@akari360.com</a>
+                            <a href="mailto:${project.contact.email}">${project.contact.email}</a>
                         </div>
                         <div class="contact-item">
                             <span class="icon">📞</span>
-                            <a href="tel:+1234567890">+1 (234) 567-890</a>
+                            <a href="tel:${project.contact.phone}">${project.contact.phone}</a>
                         </div>
                     </div>
                 </div>
