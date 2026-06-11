@@ -13,7 +13,10 @@ const toursData = [
         gallery: [
             "https://images.unsplash.com/photo-1513694203232-719a280e022f?w=800", // Replace with your image paths
             "https://images.unsplash.com/photo-1484154218962-a197022b5858?w=800",
-            "https://images.unsplash.com/photo-1505691938895-1758d7feb511?w=800"
+            "https://images.unsplash.com/photo-1505691938895-1758d7feb511?w=800",
+			"https://images.unsplash.com/photo-1613490493576-7fde63acd811?w=800",
+            "https://images.unsplash.com/photo-1512917774080-9991f1c4c750?w=800",
+            "https://images.unsplash.com/photo-1613977257363-707ba9348227?w=800"
         ]
     },
     {
