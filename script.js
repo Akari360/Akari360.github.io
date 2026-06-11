@@ -32,7 +32,8 @@ const toursData = [
             email: "luxuryvillas@akari360.com",
             phone: "+1 (987) 654-3210"
         }
-		{
+	},
+	{
         id: "luxury-villa",
         title: "Luxury Modern Villa",
         price: "$2,490,000",
@@ -46,7 +47,8 @@ const toursData = [
             email: "luxuryvillas@akari360.com",
             phone: "+1 (987) 654-3210"
         }
-		{
+		},
+	{
         id: "luxury-villa",
         title: "Luxury Modern Villa",
         price: "$2,490,000",
@@ -60,7 +62,7 @@ const toursData = [
             email: "luxuryvillas@akari360.com",
             phone: "+1 (987) 654-3210"
         }
-    }
+    },
 ];
 
 // Active Lightbox State Variables
