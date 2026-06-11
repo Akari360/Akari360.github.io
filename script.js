@@ -137,16 +137,16 @@ function checkImageExists(url) {
 }
 
 // =========================================================================
-// ⚙️ OPTIMIZED PROJECT PAGE RENDERER
+// ⚙️ OPTIMIZED PROJECT PAGE RENDERER (ASYNCHRONOUS BACKGROUND LOADING)
 // =========================================================================
-async function renderProjectPage(projectId) {
+function renderProjectPage(projectId) {
     const project = toursData.find(p => p.id === projectId);
     if (!project) return;
 
     window.location.hash = `project-${projectId}`;
     window.scrollTo({ top: 0, behavior: 'smooth' });
 
-    // Instantly inject the structural template frame with layout skeletons
+    // ⚡ ZERO DELAY: Instantly inject the full page shell and 360 iframe right away
     document.body.innerHTML = `
         <div id="detail-sticky-nav" class="sticky-nav-bar">
             <div class="container sticky-nav-content">
@@ -191,7 +191,7 @@ async function renderProjectPage(projectId) {
             <div class="line-decorator"></div>
             <div class="carousel-wrapper">
                 <div class="carousel-track" id="dynamic-carousel-track">
-                     <p style="color:var(--text-secondary); padding: 20px;">Scanning assets...</p>
+                     <p style="color: var(--text-secondary); padding: 20px; font-style: italic;">Loading images...</p>
                 </div>
                 <div class="carousel-hint">Click to enlarge • Swipe horizontally →</div>
             </div>
@@ -250,7 +250,8 @@ async function renderProjectPage(projectId) {
         }
     };
 
-    // Run background image verification scan asynchronously
+    // 🏃‍♂️ BACKGROUND WORKER: Runs silently without blocking the interface. 
+    // The moment files are verified, they seamlessly slide into the carousel container.
     autoDiscoverImages(project.imageFolder).then(discoveredImages => {
         currentGalleryArray = discoveredImages;
         const track = document.getElementById('dynamic-carousel-track');
