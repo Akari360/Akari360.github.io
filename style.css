@@ -236,36 +236,98 @@ footer {
 }
 
 /* Sticky Header Bar styling logic */
+/* =========================================================================
+   🚀 UPGRADED BIG STICKY NAV BAR 
+   ========================================================================= */
+/* =========================================================================
+   🚀 HIDDEN-TO-REVEAL BIG STICKY NAV BAR 
+   ========================================================================= */
 .sticky-nav-bar {
-    position: sticky;
-    top: 0;
+    position: fixed; /* Fixed position stays relative to viewport window */
+    top: -120px; /* Hidden above the screen boundaries initially */
+    left: 0;
     width: 100%;
-    background: rgba(11, 15, 25, 0.85);
-    backdrop-filter: blur(12px);
-    -webkit-backdrop-filter: blur(12px);
-    border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+    padding: 24px 0; 
+    background: rgba(11, 15, 25, 0.94);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.6), 
+                0 1px 0 rgba(255, 255, 255, 0.08); 
     z-index: 100;
-    padding: 15px 0;
+    opacity: 0; /* Fully transparent initially */
+    pointer-events: none; /* Disables clicking it while invisible */
+    transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1); /* Modern smooth transition deceleration curve */
+}
+
+/* 🌟 TRIGGERED STATE: Injected by JavaScript when scrolling past 320px */
+.sticky-nav-bar.visible {
+    top: 0; /* Slides down to the perfect top alignment position */
+    opacity: 1; /* Fades in cleanly */
+    pointer-events: auto; /* Restores button click behaviors */
 }
 
 .sticky-nav-content {
-    display: flex;
-    justify-content: space-between;
+    display: grid;
+    grid-template-columns: 1fr auto 1fr;
     align-items: center;
+    width: 90%;
+    max-width: 1200px;
+    margin: 0 auto;
 }
 
+/* Upscaled Sticky Title Typography */
 .sticky-title {
-    font-size: 1.1rem;
-    font-weight: 600;
+    font-size: 1.5rem; /* Bigger size */
+    font-weight: 700;
     color: var(--text-primary);
+    text-align: center;
+    letter-spacing: -0.5px;
+    text-shadow: 0 2px 10px rgba(0,0,0,0.5);
 }
 
+/* Upscaled Sticky Price Typography */
 .sticky-price {
-    font-size: 1.3rem;
-    font-weight: 800;
-    color: #4ade80;
+    font-size: 1.8rem; /* Premium, prominent value size */
+    font-weight: 900;
+    color: #4ade80; /* Radiant emphasis green */
+    text-align: right;
+    text-shadow: 0 4px 15px rgba(74, 222, 128, 0.3);
 }
 
+/* Upgraded Sticky Back Button to match the larger scale */
+.btn-back-sticky {
+    justify-self: start;
+    background: rgba(255, 255, 255, 0.04);
+    border: 2px solid rgba(255, 255, 255, 0.15);
+    color: var(--text-primary);
+    padding: 10px 24px; /* More generous clickable area */
+    border-radius: 30px;
+    cursor: pointer;
+    font-size: 0.95rem;
+    font-weight: 600;
+    letter-spacing: 0.5px;
+    transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.btn-back-sticky:hover {
+    background: var(--accent);
+    border-color: var(--accent);
+    transform: translateX(-3px);
+    box-shadow: 0 4px 15px var(--accent-glow);
+}
+
+/* Responsive adjustments for mid and small screens */
+@media (max-width: 900px) {
+    .sticky-title { font-size: 1.25rem; }
+    .sticky-price { font-size: 1.5rem; }
+}
+
+@media (max-width: 600px) {
+    .sticky-nav-bar { padding: 16px 0; } /* Keep it slightly contained on mobile screens */
+    .sticky-nav-content { display: flex; justify-content: space-between; }
+    .sticky-title { display: none; } /* Hide title on phones to prevent overlapping items */
+    .sticky-price { font-size: 1.35rem; }
+}
 /* Horizontal Picture Carousel System */
 .carousel-section {
     padding: 40px 0;

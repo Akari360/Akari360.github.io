@@ -99,11 +99,10 @@ function renderProjectPage(projectId) {
     window.location.hash = `project-${projectId}`;
     window.scrollTo({ top: 0, behavior: 'smooth' });
 
-    // Store gallery array link for modal usage
     currentGalleryArray = project.gallery;
 
     document.body.innerHTML = `
-        <div class="sticky-nav-bar">
+        <div id="detail-sticky-nav" class="sticky-nav-bar">
             <div class="container sticky-nav-content">
                 <button onclick="renderHomepage()" class="btn-back-sticky">← Back</button>
                 <div class="sticky-title">${project.title}</div>
@@ -199,6 +198,20 @@ function renderProjectPage(projectId) {
             <button class="lightbox-arrow arrow-right" onclick="changeLightboxImage(1)">&#10095;</button>
         </div>
     `;
+
+    // 🔄 SCROLL LISTENER ENGINE: Detects when user scrolls past the main header
+    window.onscroll = function() {
+        const stickyNav = document.getElementById('detail-sticky-nav');
+        // If the stickyNav element exists on the current layout page
+        if (stickyNav) {
+            // 320px is roughly where the main hero title and price end
+            if (window.scrollY > 320) {
+                stickyNav.classList.add('visible');
+            } else {
+                stickyNav.classList.remove('visible');
+            }
+        }
+    };
 }
 
 // =========================================================================
