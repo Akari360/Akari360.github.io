@@ -1,14 +1,12 @@
 // =========================================================================
 // 📂 AUTOMATED TOUR DATA REPOSITORY
-// When you create a new folder (like 0003), just add a new block {} here!
-// The website automatically generates everything else.
 // =========================================================================
 const toursData = [
     {
         id: "downtown-tour",
-        title: "AlHail Twin Villa",
-        price: "OMR 125,000",
-        shortDescription: "A wonderful twin villa.",
+        title: "Historic Downtown Exploration",
+        price: "$450,000",
+        shortDescription: "A full architectural walk-through highlighting historical landmarks.",
         longDescription: `<p> Welcome to this beautifully preserved 4 bedroom twin villa located in a very quite decent neighborhood. Featuring completely modernized utility systems.</p>
 		<p><strong>Property Highlights:</strong></p>
 		<ul>
@@ -17,13 +15,13 @@ const toursData = [
 		<li>Building Area: 331.86 square meter</li>
 		<li>land size: 300 square meter</li>
 		</ul>`,
-        folderName: "0001/output",           // Points to tours/0001/output/index.html for 360 viewer
-        imageFolder: "tours/0001/assets",    // Scans for your newly generated thumbnails here
+        folderName: "0001/output",           
+        imageFolder: "tours/0001/assets",    
         contact: {
-            heading: "Want to schedule a closer look?",
-            subheading: "Contact us on.",
-            email: "not available",
-            phone: "not available"
+            heading: "Want to schedule a historic walk-through?",
+            subheading: "Contact our commercial specialist.",
+            email: "downtown@akari360.com",
+            phone: "+1 (234) 567-890"
         }
     },
     {
@@ -31,7 +29,16 @@ const toursData = [
         title: "Luxury Modern Villa",
         price: "$2,490,000",
         shortDescription: "High-end real estate presentation showcasing interior flow and views.",
-        longDescription: "An architectural masterpiece overlooking the valley, this luxury villa features an open-concept minimalist design, smart home automation, and a zero-edge infinity pool.",
+        longDescription: `
+            <p>An architectural masterpiece overlooking the valley, this luxury villa features an open-concept minimalist design, smart home automation, and panoramic glass framing.</p>
+            
+            <p><strong>Key Premium Details:</strong></p>
+            <ul>
+                <li>Zero-edge perimeter panoramic infinity pool</li>
+                <li>Integrated smart-home security and ambient environments</li>
+                <li>Professional-grade chef's kitchen configuration</li>
+            </ul>
+        `,           
         folderName: "0002",           
         imageFolder: "tours/0002",    
         contact: {
@@ -43,7 +50,6 @@ const toursData = [
     }
 ];
 
-// Active Lightbox State Variables
 let currentGalleryArray = [];
 let activeImageIndex = 0;
 
@@ -56,9 +62,11 @@ function renderHomepage() {
     document.body.innerHTML = `
         <header>
             <div class="container animate-fade-in">
-                <div class="logo">AKARI<span>360</span></div>
-                <h1>Luxury Homes, Fully Immersive</h1>
-                <p>Step into exceptional properties from anywhere in the world.</p>
+                <div class="logo-container">
+                    <img src="logo.jpg" alt="AKARI 360 Logo" class="site-logo">
+                </div>
+                <h1>Immersive Virtual Spaces</h1>
+                <p>High-resolution, self-hosted interactive 360° tours optimized for web and mobile devices.</p>
             </div>
         </header>
         <section class="portfolio-controls container">
@@ -81,7 +89,6 @@ function renderHomepage() {
         card.className = 'card';
         card.onclick = () => renderProjectPage(tour.id);
 
-        // ⚡ INSTANT SPEED: The home grid cover loads your tiny thumbnail file instantly!
         const coverImage = `${tour.imageFolder}/1-thumb.jpg`;
 
         card.innerHTML = `
@@ -103,7 +110,6 @@ function renderHomepage() {
 
 // =========================================================================
 // 🚀 BACKGROUND DISCOVERY ENGINE
-// Searches exclusively for lightweight thumbnails to maximize network performance
 // =========================================================================
 async function autoDiscoverImages(folderPath) {
     const maxSafetyLimit = 20; 
@@ -124,7 +130,6 @@ async function autoDiscoverImages(folderPath) {
         if (result.exists) {
             validImages.push(result.path);
         } else {
-            // Safety Fallback: If you haven't run your Node generator yet, show the original image
             const fallbackPath = `${folderPath}/${result.index}.jpg`;
             const fallbackExists = await checkImageExists(fallbackPath);
             if (fallbackExists) {
@@ -137,7 +142,6 @@ async function autoDiscoverImages(folderPath) {
     return validImages;
 }
 
-// Network Checker Helper
 function checkImageExists(url) {
     return new Promise((resolve) => {
         const img = new Image();
@@ -148,7 +152,7 @@ function checkImageExists(url) {
 }
 
 // =========================================================================
-// ⚙️ PROJECT DETAIL PAGE RENDERER (FULLY ASYNCHRONOUS DECOUPLED LOADING)
+// ⚙️ PROJECT DETAIL PAGE RENDERER
 // =========================================================================
 function renderProjectPage(projectId) {
     const project = toursData.find(p => p.id === projectId);
@@ -157,7 +161,6 @@ function renderProjectPage(projectId) {
     window.location.hash = `project-${projectId}`;
     window.scrollTo({ top: 0, behavior: 'smooth' });
 
-    // ⚡ ZERO-LAG: Paints layout templates and interactive 360 view immediately
     document.body.innerHTML = `
         <div id="detail-sticky-nav" class="sticky-nav-bar">
             <div class="container sticky-nav-content">
@@ -172,8 +175,8 @@ function renderProjectPage(projectId) {
                 <div class="nav-back-wrapper">
                     <button onclick="renderHomepage()" class="btn-back">← Back to Portfolio</button>
                 </div>
-                <div class="logo-centered-wrapper">
-                    <div class="logo">AKARI<span>360</span></div>
+                <div class="logo-centered-wrapper" onclick="renderHomepage()" style="cursor:pointer;">
+                    <img src="logo.jpg" alt="AKARI 360 Logo" class="site-logo-small">
                 </div>
                 <div class="nav-spacer"></div>
             </div>
@@ -246,13 +249,12 @@ function renderProjectPage(projectId) {
             <span class="lightbox-close" onclick="closeLightbox()">&times;</span>
             <button class="lightbox-arrow arrow-left" onclick="changeLightboxImage(-1)">&#10094;</button>
             <div class="lightbox-content-wrapper">
-                <img id="lightbox-target-img" src="" alt="Crystal clear high-res viewport visualization">
+                <img id="lightbox-target-img" src="" alt="High-res visualization">
             </div>
             <button class="lightbox-arrow arrow-right" onclick="changeLightboxImage(1)">&#10095;</button>
         </div>
     `;
 
-    // Sticky navigation management
     window.onscroll = function() {
         const stickyNav = document.getElementById('detail-sticky-nav');
         if (stickyNav) {
@@ -261,7 +263,6 @@ function renderProjectPage(projectId) {
         }
     };
 
-    // 🏃‍♂️ Background assets populate instantly using the lightweight thumbnails
     autoDiscoverImages(project.imageFolder).then(discoveredImages => {
         currentGalleryArray = discoveredImages;
         const track = document.getElementById('dynamic-carousel-track');
@@ -279,14 +280,13 @@ function renderProjectPage(projectId) {
 }
 
 // =========================================================================
-// 🖼️ LIGHTBOX MODAL LOGIC (UPGRADES THUMBNAILS TO HIGH-RES ON CLICK)
+// 🖼️ LIGHTBOX MODAL LOGIC
 // =========================================================================
 function openLightbox(index) {
     activeImageIndex = index;
     const modal = document.getElementById('lightbox-modal');
     const modalImg = document.getElementById('lightbox-target-img');
     
-    // Smooth swap: strip '-thumb.jpg' to dynamically point to your huge crystal clear '1.jpg' file!
     const thumbnailPath = currentGalleryArray[activeImageIndex];
     const highResPath = thumbnailPath.replace('-thumb.jpg', '.jpg');
     
@@ -295,6 +295,7 @@ function openLightbox(index) {
     document.body.style.overflow = 'hidden';
 }
 
+// (The remaining lightbox navigation window functions continue to work normally below)
 function closeLightbox() {
     const modal = document.getElementById('lightbox-modal');
     modal.classList.remove('lightbox-active');
@@ -305,24 +306,17 @@ function changeLightboxImage(direction) {
     activeImageIndex += direction;
     if (activeImageIndex >= currentGalleryArray.length) { activeImageIndex = 0; } 
     else if (activeImageIndex < 0) { activeImageIndex = currentGalleryArray.length - 1; }
-    
     const thumbnailPath = currentGalleryArray[activeImageIndex];
     const highResPath = thumbnailPath.replace('-thumb.jpg', '.jpg');
-    
     document.getElementById('lightbox-target-img').src = highResPath;
 }
 
-// =========================================================================
-// 🚦 NAVIGATION AND HYDRATION WORKERS
-// =========================================================================
 document.addEventListener('DOMContentLoaded', () => {
     const currentHash = window.location.hash;
     if (currentHash.startsWith('#project-')) {
         const pId = currentHash.replace('#project-', '');
         renderProjectPage(pId);
-    } else { 
-        renderHomepage(); 
-    }
+    } else { renderHomepage(); }
 });
 
 window.addEventListener('popstate', () => {
@@ -330,7 +324,5 @@ window.addEventListener('popstate', () => {
     if (currentHash.startsWith('#project-')) {
         const pId = currentHash.replace('#project-', '');
         renderProjectPage(pId);
-    } else { 
-        renderHomepage(); 
-    }
+    } else { renderHomepage(); }
 });
