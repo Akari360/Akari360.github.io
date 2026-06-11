@@ -5,21 +5,22 @@
 // =========================================================================
 // 📂 UPGRADED TOUR DATA REPOSITORY (With Project-Specific Contact Info)
 // =========================================================================
+// =========================================================================
+// 📂 AUTOMATED TOUR DATA REPOSITORY
+// =========================================================================
 const toursData = [
     {
         id: "downtown-tour",
         title: "Historic Downtown Exploration",
         price: "$450,000",
         shortDescription: "A full architectural walk-through highlighting historical landmarks.",
-        longDescription: "Welcome to this beautifully preserved historic property located right in the heart of the downtown district. Featuring original brickwork, soaring 14-foot ceilings, and completely modernized utility systems.",
+        longDescription: "Welcome to this beautifully preserved historic property located right in the heart of the downtown district.",
         folderName: "0001/output", 
-        gallery: [
-            "0001/assets"
-       
-        // ✉️ Dynamic Contact Info for this specific project:
+        imageFolder: "0001/assets", // Path to where this project's images live
+        galleryCount: 20,               // 🌟 Just type the total number of images in the folder!
         contact: {
             heading: "Want to schedule a historic walk-through?",
-            subheading: "Contact our commercial specialist to arrange a private viewing or request physical floor plans.",
+            subheading: "Contact our commercial specialist.",
             email: "downtown@akari360.com",
             phone: "+1 (234) 567-890"
         }
@@ -29,17 +30,13 @@ const toursData = [
         title: "Luxury Modern Villa",
         price: "$2,490,000",
         shortDescription: "High-end real estate presentation showcasing interior flow and views.",
-        longDescription: "An architectural masterpiece overlooking the valley, this luxury villa features an open-concept minimalist design, smart home automation, a zero-edge infinity pool, and expansive floor-to-ceiling glass walls.",
+        longDescription: "An architectural masterpiece overlooking the valley, this luxury villa features an open-concept minimalist design.",
         folderName: "luxury-villa", 
-        gallery: [
-            "images/villa/exterior.jpg", 
-            "images/villa/kitchen.jpg",
-            "images/villa/pool.jpg"
-        ],
-        // ✉️ Different Dynamic Contact Info for this specific project:
+        imageFolder: "images/villa",
+        galleryCount: 6,               // 🌟 This folder has 6 images (1.jpg through 6.jpg)
         contact: {
             heading: "Inquire about this Luxury Estate",
-            subheading: "Speak directly with our premium residential broker for financing options and private asset packages.",
+            subheading: "Speak directly with our premium residential broker.",
             email: "luxuryvillas@akari360.com",
             phone: "+1 (987) 654-3210"
         }
@@ -54,6 +51,10 @@ let activeImageIndex = 0;
 // ⚙️ ENGINE: HOME & DETAIL PAGE ROUTER
 // =========================================================================
 
+// =========================================================================
+// ⚙️ ENGINE: HOME & DETAIL PAGE ROUTER (Loop Updated)
+// =========================================================================
+
 function renderHomepage() {
     window.location.hash = '';
     
@@ -65,16 +66,13 @@ function renderHomepage() {
                 <p>High-resolution, self-hosted interactive 360° tours optimized for web and mobile devices.</p>
             </div>
         </header>
-
         <section class="portfolio-controls container">
             <h2>Featured Projects</h2>
             <div class="line-decorator"></div>
         </section>
-
         <main class="container">
             <div class="gallery" id="portfolio-grid"></div>
         </main>
-
         <footer>
             <div class="container"><p>&copy; 2026 Akari360. All rights reserved.</p></div>
         </footer>
@@ -87,9 +85,12 @@ function renderHomepage() {
         card.className = 'card';
         card.onclick = () => renderProjectPage(tour.id);
 
+        // 🌟 AUTOMATIC COVER: Points directly to 1.jpg inside your folder
+        const coverImage = `${tour.imageFolder}/1.jpg`;
+
         card.innerHTML = `
             <div class="card-preview-image">
-                <img src="${tour.gallery[0]}" alt="${tour.title}" loading="lazy">
+                <img src="${coverImage}" alt="${tour.title}" loading="lazy">
                 <div class="view-tour-overlay"><span>Explore Project ✨</span></div>
             </div>
             <div class="card-info">
@@ -111,7 +112,12 @@ function renderProjectPage(projectId) {
     window.location.hash = `project-${projectId}`;
     window.scrollTo({ top: 0, behavior: 'smooth' });
 
-    currentGalleryArray = project.gallery;
+    // 🌟 AUTOMATIC CAROUSEL ARRAY BUILDER
+    // Generates the array paths dynamically: ["folder/1.jpg", "folder/2.jpg", ...]
+    currentGalleryArray = [];
+    for (let i = 1; i <= project.galleryCount; i++) {
+        currentGalleryArray.push(`${project.imageFolder}/${i}.jpg`);
+    }
 
     document.body.innerHTML = `
         <div id="detail-sticky-nav" class="sticky-nav-bar">
@@ -132,7 +138,6 @@ function renderProjectPage(projectId) {
                 </div>
                 <div class="nav-spacer"></div>
             </div>
-            
             <div class="container header-main-hero text-center">
                 <h1>${project.title}</h1>
                 <div class="project-hero-price">${project.price}</div>
@@ -143,11 +148,7 @@ function renderProjectPage(projectId) {
             <div class="container">
                 <div class="iframe-container large-viewer">
                     <div class="loading-spinner"></div>
-                    <iframe 
-                        src="tours/${project.folderName}/index.html" 
-                        allowfullscreen 
-                        allow="xr-spatial-tracking; gyroscope; accelerometer">
-                    </iframe>
+                    <iframe src="tours/${project.folderName}/index.html" allowfullscreen allow="xr-spatial-tracking; gyroscope; accelerometer"></iframe>
                 </div>
             </div>
         </section>
@@ -157,7 +158,7 @@ function renderProjectPage(projectId) {
             <div class="line-decorator"></div>
             <div class="carousel-wrapper">
                 <div class="carousel-track">
-                    ${project.gallery.map((imgUrl, index) => `
+                    ${currentGalleryArray.map((imgUrl, index) => `
                         <div class="carousel-slide" onclick="openLightbox(${index})">
                             <img src="${imgUrl}" alt="Gallery view room ${index + 1}">
                         </div>
@@ -175,7 +176,7 @@ function renderProjectPage(projectId) {
             </div>
         </main>
 
-       <section class="container contact-section">
+        <section class="container contact-section">
             <div class="contact-card">
                 <div class="contact-accent-bar"></div>
                 <div class="contact-grid">
@@ -205,27 +206,22 @@ function renderProjectPage(projectId) {
             <span class="lightbox-close" onclick="closeLightbox()">&times;</span>
             <button class="lightbox-arrow arrow-left" onclick="changeLightboxImage(-1)">&#10094;</button>
             <div class="lightbox-content-wrapper">
-                <img id="lightbox-target-img" src="" alt="Enlarged visualization viewport">
+                <img id="lightbox-target-img" src="" alt="Enlarged layout viewport">
             </div>
             <button class="lightbox-arrow arrow-right" onclick="changeLightboxImage(1)">&#10095;</button>
         </div>
     `;
 
-    // 🔄 SCROLL LISTENER ENGINE: Detects when user scrolls past the main header
     window.onscroll = function() {
         const stickyNav = document.getElementById('detail-sticky-nav');
-        // If the stickyNav element exists on the current layout page
         if (stickyNav) {
-            // 320px is roughly where the main hero title and price end
-            if (window.scrollY > 320) {
-                stickyNav.classList.add('visible');
-            } else {
-                stickyNav.classList.remove('visible');
-            }
+            if (window.scrollY > 320) { stickyNav.classList.add('visible'); } 
+            else { stickyNav.classList.remove('visible'); }
         }
     };
 }
 
+// Keep your existing openLightbox, closeLightbox, changeLightboxImage, and DOMContentLoaded listeners at the bottom unchanged!
 // =========================================================================
 // 🖼️ LIGHTBOX MODAL NAVIGATION LOGIC INTERFACE
 // =========================================================================
