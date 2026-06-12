@@ -21,7 +21,7 @@ const toursData = [
 		<li>Building Area: 331.86 square meter</li>
 		<li>land size: 300 square meter</li>
 		</ul>`,
-        `, 
+        
         folderName: "0001/output",           
         imageFolder: "tours/0001/assets",    
         contact: {
