@@ -624,6 +624,7 @@ header p {
 .contact-card {
     background-color: var(--text-primary);
     color: #ffffff;
+	width:;
     border-radius: var(--radius-premium);
     overflow: hidden;
     position: relative;
