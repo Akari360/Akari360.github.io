@@ -3,7 +3,7 @@
 // =========================================================================
 const toursData = [
     {
-        id: "AlHail-twin-Villa",
+        id: "AlHail twin Villa",
         refCode: "AK-0001",                 // Unique Reference Code
         title: "AlHail twin Villa",
         price: "OMR 120,000",
@@ -140,7 +140,7 @@ function populateGridCards(filteredDataset) {
 
         const coverImage = `${tour.imageFolder}/1-thumb.jpg`;
 
-        // 🧮 Dual unit conversion layout engines
+        // Dual unit conversion layout engines
         const aptSqFt = Math.round(tour.aptSize * 10.764).toLocaleString();
         let specString = `🛏️ ${tour.beds} | 🛁 ${tour.baths} | 📐 ${tour.aptSize} sqm (${aptSqFt} sq ft)`;
         
@@ -229,16 +229,16 @@ function renderProjectPage(projectId) {
         </div>
 
         <header class="detail-header">
-            <div class="container detail-top-bar">
+            <div class="container detail-top-bar" style="position: relative; display: flex; align-items: center; justify-content: space-between;">
                 <div class="nav-back-wrapper">
                     <button onclick="renderHomepage()" class="btn-back">← Back to Portfolio</button>
                 </div>
-                <div class="logo-centered-wrapper" onclick="renderHomepage()">
-                    <img src="logo.jpg" alt="AKARI 360 Logo" class="site-logo-small">
+                <div class="logo-centered-wrapper" onclick="renderHomepage()" style="position: absolute; left: 50%; transform: translateX(-50%); top: 10px; cursor: pointer;">
+                    <img src="logo.jpg" alt="AKARI 360 Logo" style="width: 140px; height: auto; display: block; margin: 0 auto;">
                 </div>
                 <div class="nav-spacer"></div>
             </div>
-            <div class="container header-main-hero text-center" style="text-align: center; margin-top: 40px;">
+            <div class="container header-main-hero text-center" style="text-align: center; margin-top: 110px;">
                 <h1>${project.title}</h1>
                 <div class="project-hero-price">${project.price}</div>
             </div>
@@ -253,15 +253,14 @@ function renderProjectPage(projectId) {
                         allowfullscreen 
                         loading="lazy"
                         allow="xr-spatial-tracking; gyroscope; accelerometer">
-                     stream
                     </iframe>
                 </div>
             </div>
         </section>
 
-        <section class="carousel-section container">
+        <section class="carousel-section container" style="text-align: left;">
             <h2>Photo Gallery</h2>
-            <div class="line-decorator"></div>
+            <div class="line-decorator" style="margin-left: 0;"></div>
             <div class="carousel-wrapper">
                 <div class="carousel-track" id="dynamic-carousel-track">
                      <p style="color: var(--text-secondary); padding: 20px; font-style: italic;">Optimizing display view...</p>
@@ -280,7 +279,6 @@ function renderProjectPage(projectId) {
 
         <section class="container contact-section">
             <div class="contact-card">
-                <div class="contact-accent-bar"></div>
                 <div class="contact-grid">
                     <div class="contact-info-text">
                         <h3>${project.contact.heading}</h3>
@@ -397,7 +395,6 @@ function openLightbox(index) {
     document.body.style.overflow = 'hidden';
 }
 
-// Fixed clear layer control function bound directly to viewport configurations
 function closeLightbox() {
     const modal = document.getElementById('lightbox-modal');
     if (modal) modal.classList.remove('lightbox-active');
@@ -415,27 +412,19 @@ function changeLightboxImage(direction) {
     if (modalImg) modalImg.src = highResPath;
 }
 
-// =========================================================================
-// 🎯 FIXED URL ROUTING STATE TRACKING HOOKS
-// =========================================================================
+// Routing URL state tracking hooks
 document.addEventListener('DOMContentLoaded', () => {
     const currentHash = window.location.hash;
     if (currentHash.startsWith('#project-')) {
-        // FIXED: Added decodeURIComponent to convert "%20" back into raw spaces
         const pId = decodeURIComponent(currentHash.replace('#project-', ''));
         renderProjectPage(pId);
-    } else { 
-        renderHomepage(); 
-    }
+    } else { renderHomepage(); }
 });
 
 window.addEventListener('popstate', () => {
     const currentHash = window.location.hash;
     if (currentHash.startsWith('#project-')) {
-        // FIXED: Added decodeURIComponent to convert "%20" back into raw spaces
         const pId = decodeURIComponent(currentHash.replace('#project-', ''));
         renderProjectPage(pId);
-    } else { 
-        renderHomepage(); 
-    }
+    } else { renderHomepage(); }
 });
