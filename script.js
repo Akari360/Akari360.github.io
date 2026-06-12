@@ -77,7 +77,7 @@ function renderHomepage() {
                 </div>
                 <div class="filter-group checkbox-group">
                     <input type="checkbox" id="filter-balcony" onchange="executeSearchFilter()">
-                    <label for="filter-balcony">Requires Private Balcony / Terrace</label>
+                    <label for="filter-balcony"> Balcony / Terrace</label>
                 </div>
                 <button class="btn-clear-filters" onclick="resetSearchFilters()">Reset Parameters</button>
             </div>
