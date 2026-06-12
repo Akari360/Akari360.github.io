@@ -1,42 +1,55 @@
 // =========================================================================
-// 📂 AUTOMATED TOUR DATA REPOSITORY (WITH ADVANCED METRICS)
+// 📂 LIVE GOOGLE SHEETS FORM DATA INTEGRATION ENGINE
 // =========================================================================
-const toursData = [
-    {
-        id: "AlHail twin Villa",
-        refCode: "AK-0001",                 // Unique Reference Code
-        title: "AlHail twin Villa",
-        price: "OMR 120,000",
-        beds: 4,                            // Number of Beds
-        baths: 5,                           // Number of Baths
-        plotSize: 300,                      // Plot Size (Optional: null if not applicable)
-        aptSize: 331.86,                    // Apartment Size in sqm
-        balcony: false,                     // Balcony: true or false
-        shortDescription: "A full architectural walk-through highlighting historical landmarks.",
-        longDescription: `
-            <p>Welcome to this beautifully preserved 4 bedroom twin villa located in a very quite decent neighborhood. Featuring completely modernized utility systems.</p>
-            <p><strong>Property Highlights:</strong></p>
-            <ul>
-                <li>Number of Bedrooms: 4</li>
-                <li>Number of Bathrooms: 5</li>
-                <li>Building Area: 331.86 square meter</li>
-                <li>land size: 300 square meter</li>
-            </ul>
-        `,
-        folderName: "0001/output",           
-        imageFolder: "tours/0001/assets",    
-        contact: {
-            heading: "Want to schedule a walk-through?",
-            subheading: "Contact our commercial specialist.",
-            email: "Not available",
-            phone: "Not available"
-        }
-    }
-];
+// 🔗 PASTE YOUR COPIED GOOGLE WEB APP DEPLOYMENT URL BETWEEN THE QUOTES BELOW:
+const GOOGLE_SHEET_API_URL = "https://script.google.com/macros/s/AKfycby638yRvDSRa9G4v3jDBEdWH1AVGFcnTppuGKftm20ccKXr9gaemC_A7qMVpXYrTYdg/exec";
 
-// Global session control states
+let toursData = [];
 let currentGalleryArray = [];
 let activeImageIndex = 0;
+
+// Centralized dynamic data bootstrap fetch controller
+async function initApplication() {
+    try {
+        const response = await fetch(GOOGLE_SHEET_API_URL);
+        if (!response.ok) throw new Error("Network response was not stable");
+        
+        toursData = await response.json();
+        
+        // Trigger routing mechanisms once your database has downloaded
+        handleInitialRouting();
+    } catch (error) {
+        console.error("Database initialization failed. Falling back to local state execution:", error);
+        // Fallback emergency object so the site doesn't load a blank screen if Google has an outage
+        toursData = [{
+            id: "AlHail twin Villa",
+            refCode: "AK-0001",
+            title: "AlHail twin Villa",
+            price: "OMR 120,000",
+            beds: 4, baths: 5, plotSize: 300, aptSize: 331.86, balcony: false,
+            shortDescription: "Data fetching failed. Showing cached listing backup.",
+            longDescription: "<p>Please verify your Google Web App deployment parameters.</p>",
+            folderName: "0001/output", imageFolder: "tours/0001/assets",
+            contact: { heading: "Unavailable", subheading: "Database offline", email: "N/A", phone: "N/A" }
+        }];
+        handleInitialRouting();
+    }
+}
+
+// Dedicated isolated router logic block split out for structural async execution
+function handleInitialRouting() {
+    const currentHash = window.location.hash;
+    if (currentHash.startsWith('#project-')) {
+        const pId = decodeURIComponent(currentHash.replace('#project-', ''));
+        renderProjectPage(pId);
+    } else { 
+        renderHomepage(); 
+    }
+}
+
+// Updated DOM Content Loaded listeners to boot up the sheet connection initialization step
+document.addEventListener('DOMContentLoaded', initApplication);
+window.addEventListener('popstate', handleInitialRouting);
 
 // =========================================================================
 // ⚙️ ENGINE: HOME PAGE PORTFOLIO GRID & SEARCH RADAR GENERATOR
@@ -114,11 +127,9 @@ function renderHomepage() {
         </footer>
     `;
 
-    // Render dataset on initial load
     populateGridCards(toursData);
 }
 
-// Sub-Worker to parse grid system allocations safely without identifier duplications
 function populateGridCards(filteredDataset) {
     const targetGrid = document.getElementById('portfolio-grid');
     const noResultsMsg = document.getElementById('no-results-msg');
@@ -139,8 +150,6 @@ function populateGridCards(filteredDataset) {
         card.onclick = () => renderProjectPage(tour.id);
 
         const coverImage = `${tour.imageFolder}/1-thumb.jpg`;
-
-        // Dual unit conversion layout engines
         const aptSqFt = Math.round(tour.aptSize * 10.764).toLocaleString();
         let specString = `🛏️ ${tour.beds} | 🛁 ${tour.baths} | 📐 ${tour.aptSize} sqm (${aptSqFt} sq ft)`;
         
@@ -169,13 +178,11 @@ function populateGridCards(filteredDataset) {
     });
 }
 
-// Toggle operations for filter drawer panel
 function toggleSearchPanel() {
     const panel = document.getElementById('search-filter-panel');
     if (panel) panel.classList.toggle('panel-open');
 }
 
-// Search Filter Execution Worker
 function executeSearchFilter() {
     const keyword = document.getElementById('filter-keyword').value.toLowerCase().trim();
     const minBeds = parseInt(document.getElementById('filter-beds').value) || 0;
@@ -198,7 +205,6 @@ function executeSearchFilter() {
     populateGridCards(filtered);
 }
 
-// Reset operations back to clean baseline state
 function resetSearchFilters() {
     document.getElementById('filter-keyword').value = "";
     document.getElementById('filter-beds').value = "";
@@ -411,20 +417,3 @@ function changeLightboxImage(direction) {
     const modalImg = document.getElementById('lightbox-target-img');
     if (modalImg) modalImg.src = highResPath;
 }
-
-// Routing URL state tracking hooks
-document.addEventListener('DOMContentLoaded', () => {
-    const currentHash = window.location.hash;
-    if (currentHash.startsWith('#project-')) {
-        const pId = decodeURIComponent(currentHash.replace('#project-', ''));
-        renderProjectPage(pId);
-    } else { renderHomepage(); }
-});
-
-window.addEventListener('popstate', () => {
-    const currentHash = window.location.hash;
-    if (currentHash.startsWith('#project-')) {
-        const pId = decodeURIComponent(currentHash.replace('#project-', ''));
-        renderProjectPage(pId);
-    } else { renderHomepage(); }
-});
