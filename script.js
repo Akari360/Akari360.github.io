@@ -10,7 +10,7 @@ const toursData = [
         beds: 4,                            // Number of Beds
         baths: 5,                           // Number of Baths
         plotSize: 300,                     // Plot Size (Optional: null if not applicable)
-        aptSize: 331.86 sqm,                       // Apartment Size in sqm / sqft
+        aptSize: 331.86,                       // Apartment Size in sqm / sqft
         balcony: false,                      // Balcony: true or false
         shortDescription: "A full architectural walk-through highlighting historical landmarks.",
         longDescription: `<p> Welcome to this beautifully preserved 4 bedroom twin villa located in a very quite decent neighborhood. Featuring completely modernized utility systems.</p>
@@ -99,14 +99,15 @@ function renderHomepage() {
                     </div>
                 </div>
                 <div class="filter-row-split">
-                    <div class="filter-group">
-                        <label>Min Size (Apt)</label>
-                        <input type="number" id="filter-apt-size" min="0" placeholder="sqm" oninput="executeSearchFilter()">
-                    </div>
-                    <div class="filter-group">
-                        <label>Min Plot Size</label>
-                        <input type="number" id="filter-plot-size" min="0" placeholder="sqm" oninput="executeSearchFilter()">
-                    </div>
+    <div class="filter-group">
+        <label>Min Size (Apt sqm)</label>
+        <input type="number" id="filter-apt-size" min="0" placeholder="e.g. 300" oninput="executeSearchFilter()">
+    </div>
+    <div class="filter-group">
+        <label>Min Plot Size (sqm)</label>
+        <input type="number" id="filter-plot-size" min="0" placeholder="e.g. 800" oninput="executeSearchFilter()">
+    </div>
+</div>
                 </div>
                 <div class="filter-group checkbox-group">
                     <input type="checkbox" id="filter-balcony" onchange="executeSearchFilter()">
@@ -160,8 +161,47 @@ function populateGridCards(filteredDataset) {
         noResultsMsg.classList.remove('visible');
     }
 
-    filteredDataset.forEach(tour => {
+filteredDataset.forEach(tour => {
         const card = document.createElement('div');
+        card.className = 'card animate-fade-in';
+        card.onclick = () => renderProjectPage(tour.id);
+
+        const coverImage = `${tour.imageFolder}/1-thumb.jpg`;
+
+        // 🧮 AUTOMATED MATHEMATICAL CONVERSIONS
+        // Convert sqm to sq ft by multiplying by 10.764, then rounding to clean text
+        const aptSqFt = Math.round(tour.aptSize * 10.764).toLocaleString();
+        
+        // Build the composite dual-unit string for Apartment Size
+        let specString = `🛏️ ${tour.beds} | 🛁 ${tour.baths} | 📐 ${tour.aptSize} sqm (${aptSqFt} sq ft)`;
+        
+        // Build the composite dual-unit string for Plot Size if it exists
+        if (tour.plotSize) {
+            const plotSqFt = Math.round(tour.plotSize * 10.764).toLocaleString();
+            specString += ` | 🌳 Plot: ${tour.plotSize} sqm (${plotSqFt} sq ft)`;
+        }
+        
+        if (tour.balcony) specString += ` | 🌅 Balcony`;
+
+        card.innerHTML = `
+            <div class="card-preview-image">
+                <img src="${coverImage}" alt="${tour.title}" loading="lazy" onerror="this.src='${tour.imageFolder}/1.jpg'">
+                <span class="card-ref-badge">${tour.refCode}</span>
+                <div class="view-tour-overlay"><span>Explore Project ✨</span></div>
+            </div>
+            <div class="card-info">
+                <div class="card-header-split">
+                    <h3>${tour.title}</h3>
+                    <span class="card-price">${tour.price}</span>
+                </div>
+                <div class="card-specs-strip">${specString}</div>
+                <p>${tour.shortDescription}</p>
+            </div>
+        `;
+        gridContainer.appendChild(card);
+    });
+
+	const card = document.createElement('div');
         card.className = 'card animate-fade-in';
         card.onclick = () => renderProjectPage(tour.id);
 
