@@ -9,19 +9,20 @@ const toursData = [
         price: "OMR 120,000",
         beds: 4,                            // Number of Beds
         baths: 5,                           // Number of Baths
-        plotSize: 300,                     // Plot Size (Optional: null if not applicable)
-        aptSize: 331.86,                       // Apartment Size in sqm / sqft
-        balcony: false,                      // Balcony: true or false
+        plotSize: 300,                      // Plot Size (Optional: null if not applicable)
+        aptSize: 331.86,                    // Apartment Size in sqm
+        balcony: false,                     // Balcony: true or false
         shortDescription: "A full architectural walk-through highlighting historical landmarks.",
-        longDescription: `<p> Welcome to this beautifully preserved 4 bedroom twin villa located in a very quite decent neighborhood. Featuring completely modernized utility systems.</p>
-		<p><strong>Property Highlights:</strong></p>
-		<ul>
-		<li>Number of Bedrooms: 4</li>
-		<li>Number of Bathrooms: 5</li>
-		<li>Building Area: 331.86 square meter</li>
-		<li>land size: 300 square meter</li>
-		</ul>`,
-        
+        longDescription: `
+            <p>Welcome to this beautifully preserved 4 bedroom twin villa located in a very quite decent neighborhood. Featuring completely modernized utility systems.</p>
+            <p><strong>Property Highlights:</strong></p>
+            <ul>
+                <li>Number of Bedrooms: 4</li>
+                <li>Number of Bathrooms: 5</li>
+                <li>Building Area: 331.86 square meter</li>
+                <li>land size: 300 square meter</li>
+            </ul>
+        `,
         folderName: "0001/output",           
         imageFolder: "tours/0001/assets",    
         contact: {
@@ -30,37 +31,7 @@ const toursData = [
             email: "Not available",
             phone: "Not available"
         }
-    },
-    /* {
-        id: "luxury-villa",
-       refCode: "AK-0002",
-        title: "Luxury Modern Villa",
-        price: "$2,490,000",
-        beds: 5,
-        baths: 6,
-        aptSize: 420.00,                       
-        plotSize: 850.50,                      
-        balcony: true,
-        shortDescription: "High-end real estate presentation showcasing interior flow and views.",
-        longDescription: `
-            <p>An architectural masterpiece overlooking the valley, this luxury villa features an open-concept minimalist design, smart home automation, and panoramic glass framing.</p>
-            
-            <p><strong>Key Premium Details:</strong></p>
-            <ul>
-                <li>Zero-edge perimeter panoramic infinity pool</li>
-                <li>Integrated smart-home security and ambient environments</li>
-                <li>Professional-grade chef's kitchen configuration</li>
-            </ul>
-        `,           
-        folderName: "0002",           
-        imageFolder: "tours/0002",    
-        contact: {
-            heading: "Inquire about this Luxury Estate",
-            subheading: "Speak directly with our premium residential broker.",
-            email: "luxuryvillas@akari360.com",
-            phone: "+1 (987) 654-3210"
-        }
-    } */
+    }
 ];
 
 // Global session control states
@@ -74,14 +45,7 @@ function renderHomepage() {
     window.location.hash = '';
     
     document.body.innerHTML = `
-        <div class="search-trigger-wrapper" onclick="toggleSearchPanel()">
-            <span class="search-icon-text">FILTER ARCHIVE</span>
-            <div class="search-circle-btn">
-                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>
-            </div>
-        </div>
-
-        <div id="search-filter-panel" class="filter-panel">
+        <div id="search-filter-panel" class="floating-drawer-panel">
             <div class="filter-panel-header">
                 <h3>Search Parameters</h3>
                 <span class="close-panel-btn" onclick="toggleSearchPanel()">&times;</span>
@@ -126,6 +90,13 @@ function renderHomepage() {
                 </div>
                 <h1>Luxury Homes, Fully Immersive</h1>
                 <p>Step into exceptional properties from anywhere in the world.</p>
+                
+                <div class="trigger-button-wrapper">
+                    <button class="btn-open-search" onclick="toggleSearchPanel()">
+                        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="margin-right: 8px; vertical-align: middle;"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>
+                        Filter Archive Parameters
+                    </button>
+                </div>
             </div>
         </header>
         
@@ -144,7 +115,7 @@ function renderHomepage() {
         </footer>
     `;
 
-    // Render original complete dataset on initial load
+    // Render dataset on initial load
     populateGridCards(toursData);
 }
 
@@ -170,7 +141,7 @@ function populateGridCards(filteredDataset) {
 
         const coverImage = `${tour.imageFolder}/1-thumb.jpg`;
 
-        // 🧮 Conversions calculated strictly inside local rendering scopes
+        // 🧮 Dual unit conversion layout engines
         const aptSqFt = Math.round(tour.aptSize * 10.764).toLocaleString();
         let specString = `🛏️ ${tour.beds} | 🛁 ${tour.baths} | 📐 ${tour.aptSize} sqm (${aptSqFt} sq ft)`;
         
