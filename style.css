@@ -36,13 +36,13 @@ body {
 }
 
 /* =========================================================================
-   🎛️ FLOATING SIDE PANEL DRAWER (WITH PRECISE RIGHT CHANNEL GAPS)
+   🎛️ FLOATING SIDE PANEL DRAWER
    ========================================================================= */
 .floating-drawer-panel {
     position: fixed;
     top: 30px;
     bottom: 30px;
-    right: -420px; /* Kept completely out of sight natively */
+    right: -420px;
     width: 380px;
     background-color: var(--bg-secondary);
     border: 1px solid var(--border-subtle);
@@ -57,7 +57,6 @@ body {
     gap: 25px;
 }
 
-/* Slides open gracefully, stopping 415px out to ensure the floating side margin gap */
 .floating-drawer-panel.panel-open {
     transform: translateX(-415px); 
 }
@@ -227,7 +226,7 @@ header p {
 .portfolio-controls {
     padding: 60px 0 35px 0;
     display: flex;
-    justify-content: space-between; /* Pushes text to the left margin, button to the right margin */
+    justify-content: space-between; /* As per edited-image.png: Heading Left, Button Right */
     align-items: flex-end;
 }
 
@@ -253,7 +252,7 @@ header p {
     margin-top: 15px;
 }
 
-/* 🎯 Repositioned filter button placement styling */
+/* Filter button positioning adjustments */
 .btn-open-search {
     background-color: var(--bg-primary);
     color: var(--text-primary);
@@ -426,30 +425,31 @@ header p {
 }
 
 /* =========================================================================
-   🏁 PROJECT DETAIL DISPLAY SCREENS
+   🏁 PROJECT DETAIL DISPLAY SCREENS (UPDATED FOR CENTERING & UN-SHRINKING)
    ========================================================================= */
 .detail-header {
-    padding: 30px 0 10px 0;
+    padding: 40px 0 20px 0;
     background-color: var(--bg-primary);
+    text-align: center; /* Ensures header text balances under centered logo */
 }
 
+/* Stack layout configured natively to replicate structure in edited-image.jpg */
 .detail-top-bar {
     display: flex;
-    align-items: center;
-    justify-content: space-between;
+    flex-direction: column;
+    align-items: center; 
+    justify-content: center;
+    position: relative;
+    gap: 20px;
+    width: 100%;
 }
 
-.site-logo-small {
-    height: 60px !important;
-    width: 60px !important;
-    min-width: 60px !important;
-    min-height: 60px !important;
-    object-fit: contain;
-    cursor: pointer;
-    flex-shrink: 0;
-}
-
+/* Absolute pull to keep "Back to portfolio" anchored perfectly left without displacing logo */
 .btn-back {
+    position: absolute;
+    left: 0;
+    top: 50%;
+    transform: translateY(-50%);
     background: none;
     border: none;
     color: var(--text-primary);
@@ -461,13 +461,35 @@ header p {
 
 .btn-back:hover {
     color: var(--text-secondary);
-    transform: translateX(-2px);
+    transform: translateY(-50%) translateX(-2px);
+}
+
+/* 🛡️ Strict lock matches edited-image.jpg parameters exactly */
+.site-logo-small {
+    width: 140px !important;
+    height: 140px !important;
+    min-width: 140px !important;
+    min-height: 140px !important;
+    max-width: 140px !important;
+    max-height: 140px !important;
+    object-fit: contain !important;
+    flex-shrink: 0 !important;
+    display: block;
+    margin: 0 auto;
+    cursor: pointer;
+}
+
+.detail-header h2 {
+    font-size: 2rem;
+    font-weight: 400;
+    color: var(--text-primary);
+    margin-top: 10px;
 }
 
 .project-hero-price {
-    font-size: 1.4rem;
+    font-size: 1.3rem;
     color: var(--text-secondary);
-    margin-top: 8px;
+    margin-top: 6px;
 }
 
 .main-360-viewer {
@@ -789,17 +811,18 @@ footer {
     .contact-grid { flex-direction: column; align-items: flex-start; gap: 20px; }
     .iframe-container { aspect-ratio: 4 / 3; }
     .details-content-card { padding: 24px; }
+    .btn-back { position: relative; left: auto; top: auto; transform: none; margin-bottom: 10px; }
 }
 
 @media (max-width: 500px) {
     header { padding: 60px 0 40px 0; }
     header h1 { font-size: 1.8rem; }
     .site-logo { width: 110px !important; height: 110px !important; min-width: 110px !important; min-height: 110px !important; }
+    .site-logo-small { width: 110px !important; height: 110px !important; min-width: 110px !important; min-height: 110px !important; }
     .arrow-left { left: 10px; }
     .arrow-right { right: 10px; }
     .lightbox-close { top: 15px; right: 20px; }
     
-    /* Panel turns into a full slide-up sheet on compact phone screen viewports */
     .floating-drawer-panel {
         width: calc(100% - 30px);
         right: -100%;
