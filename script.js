@@ -99,7 +99,8 @@ function renderHomepage() {
         <header>
             <div class="container animate-fade-in">
                 <div class="logo-container">
-                    <img src="logo.jpg" alt="AKARI 360 Logo" class="site-logo">
+                    <!-- CHANGED: Updated file name targeting logo.png -->
+                    <img src="logo.png" alt="AKARI 360 Logo" class="site-logo">
                 </div>
                 <h1>Luxury Homes, Fully Immersive</h1>
                 <p>Step into exceptional properties from anywhere in the world.</p>
@@ -240,7 +241,7 @@ function renderProjectPage(projectId) {
                     <button onclick="renderHomepage()" class="btn-back">← Back to Portfolio</button>
                 </div>
                 <div class="logo-centered-wrapper" onclick="renderHomepage()" style="position: absolute; left: 50%; transform: translateX(-50%); top: 10px; cursor: pointer;">
-                    <img src="logo.jpg" alt="AKARI 360 Logo" style="width: 140px; height: auto; display: block; margin: 0 auto;">
+                    <img src="logo.png" alt="AKARI 360 Logo" style="width: 140px; height: auto; display: block; margin: 0 auto;">
                 </div>
                 <div class="nav-spacer"></div>
             </div>

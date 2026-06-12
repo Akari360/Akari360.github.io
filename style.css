@@ -186,24 +186,25 @@ header {
     border-bottom: 1px solid var(--border-subtle);
 }
 
+/* Container framework wrapper */
 .logo-container {
-    margin-bottom: 32px;
     display: flex;
     justify-content: center;
     align-items: center;
+    margin-bottom: 20px;
+    padding: 10px 0;
 }
 
-/* 🛡️ Rigid size lock overrides flex structures to keep homepage logo from shrinking */
+/* Premium image rendering rules for your transparent PNG */
 .site-logo {
-    width: 140px !important;
-    height: 140px !important;
-    min-width: 140px !important;
-    min-height: 140px !important;
-    max-width: 140px !important;
-    max-height: 140px !important;
-    object-fit: contain !important;
-    flex-shrink: 0 !important;
+    width: 140px;          /* Locked down custom visual scale */
+    height: auto;          /* Main proportion tracking aspect-ratio */
+    background: transparent; /* Forces background transparency pass-through */
     display: block;
+    
+    /* Advanced image rendering smoothing mechanics */
+    image-rendering: -webkit-optimize-contrast;
+    image-rendering: crisp-edges;
 }
 
 header h1 {
