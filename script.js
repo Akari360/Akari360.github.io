@@ -90,19 +90,18 @@ function renderHomepage() {
                 </div>
                 <h1>Luxury Homes, Fully Immersive</h1>
                 <p>Step into exceptional properties from anywhere in the world.</p>
-                
-                <div class="trigger-button-wrapper">
-                    <button class="btn-open-search" onclick="toggleSearchPanel()">
-                        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="margin-right: 8px; vertical-align: middle;"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>
-                        Filter Archive Parameters
-                    </button>
-                </div>
             </div>
         </header>
         
         <section class="portfolio-controls container">
-            <h2>Featured Projects</h2>
-            <div class="line-decorator"></div>
+            <div class="portfolio-heading-wrapper">
+                <h2>Featured Projects</h2>
+                <div class="line-decorator"></div>
+            </div>
+            <button class="btn-open-search" id="open-filter-btn" onclick="toggleSearchPanel()">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="margin-right: 8px; display: inline-block; vertical-align: middle;"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>
+                Filter Archive Parameters
+            </button>
         </section>
         
         <main class="container">
@@ -254,6 +253,7 @@ function renderProjectPage(projectId) {
                         allowfullscreen 
                         loading="lazy"
                         allow="xr-spatial-tracking; gyroscope; accelerometer">
+                     stream
                     </iframe>
                 </div>
             </div>
@@ -397,6 +397,7 @@ function openLightbox(index) {
     document.body.style.overflow = 'hidden';
 }
 
+// Fixed clear layer control function bound directly to viewport configurations
 function closeLightbox() {
     const modal = document.getElementById('lightbox-modal');
     if (modal) modal.classList.remove('lightbox-active');
@@ -429,54 +430,4 @@ window.addEventListener('popstate', () => {
         const pId = currentHash.replace('#project-', '');
         renderProjectPage(pId);
     } else { renderHomepage(); }
-});
-
-// =========================================================================
-// 🎯 FORCE FILTER BUTTON TO THE RIGHT MARGIN (DYNAMIC HTML PATCH)
-// =========================================================================
-document.addEventListener("DOMContentLoaded", function () {
-    // 1. Find or create the proper layout section wrapper below the header
-    let controlsSection = document.querySelector('.portfolio-controls');
-    if (!controlsSection) {
-        controlsSection = document.createElement('section');
-        controlsSection.className = 'portfolio-controls container';
-        
-        // Safely place it right before the gallery grid container
-        const mainGrid = document.getElementById('portfolio-grid') || document.querySelector('main');
-        if (mainGrid) {
-            mainGrid.parentNode.insertBefore(controlsSection, mainGrid);
-        }
-    }
-
-    // 2. Standardize the heading text wrapper layout on the left side
-    let headingWrapper = controlsSection.querySelector('.portfolio-heading-wrapper');
-    if (!headingWrapper) {
-        headingWrapper = document.createElement('div');
-        headingWrapper.className = 'portfolio-heading-wrapper';
-        
-        // Move existing heading elements inside it if they exist
-        const existingH2 = controlsSection.querySelector('h2') || document.createElement('h2');
-        existingH2.textContent = "Featured Projects";
-        
-        const existingLine = controlsSection.querySelector('.line-decorator') || document.createElement('div');
-        existingLine.className = 'line-decorator';
-        
-        headingWrapper.appendChild(existingH2);
-        headingWrapper.appendChild(existingLine);
-        controlsSection.appendChild(headingWrapper);
-    }
-
-    // 3. Hunt down the filter button wherever it is trapped and rip it out
-    let filterBtn = document.querySelector('.btn-open-search') || document.getElementById('open-filter-btn');
-    
-    // If it doesn't exist anywhere in your project yet, build it fresh
-    if (!filterBtn) {
-        filterBtn = document.createElement('button');
-        filterBtn.className = 'btn-open-search';
-        filterBtn.id = 'open-filter-btn';
-        filterBtn.innerHTML = '🔍 FILTER ARCHIVE PARAMETERS';
-    }
-
-    // 4. Force inject the button straight into the right side of the control section
-    controlsSection.appendChild(filterBtn);
 });
