@@ -36,38 +36,6 @@ body {
 }
 
 /* =========================================================================
-   🎯 INLINE FILTER ACTIVATION BUTTON
-   ========================================================================= */
-.trigger-button-wrapper {
-    margin-top: 25px;
-    display: flex;
-    justify-content: center;
-}
-
-.btn-open-search {
-    background-color: var(--bg-primary);
-    color: var(--text-primary);
-    border: 1px solid var(--border-subtle);
-    padding: 13px 26px;
-    font-family: var(--font-luxury);
-    font-size: 0.8rem;
-    text-transform: uppercase;
-    letter-spacing: 0.08em;
-    border-radius: var(--radius-premium);
-    cursor: pointer;
-    box-shadow: 0 4px 15px rgba(0,0,0,0.02);
-    transition: var(--transition-smooth);
-    display: flex;
-    align-items: center;
-}
-
-.btn-open-search:hover {
-    border-color: var(--text-primary);
-    transform: translateY(-2px);
-    box-shadow: 0 6px 20px rgba(0,0,0,0.05);
-}
-
-/* =========================================================================
    🎛️ FLOATING SIDE PANEL DRAWER (WITH PRECISE RIGHT CHANNEL GAPS)
    ========================================================================= */
 .floating-drawer-panel {
@@ -219,19 +187,23 @@ header {
 }
 
 .logo-container {
-    margin-bottom: 24px;
+    margin-bottom: 32px;
     display: flex;
     justify-content: center;
+    align-items: center;
 }
 
-/* 🛡️ Strict lock configuration to keep logo from shrinking */
+/* 🛡️ Strict lock configuration to keep logo prominent, larger, and unshrinkable */
 .site-logo {
-    height: 80px !important;
-    width: 80px !important;
-    min-height: 80px !important;
-    min-width: 80px !important;
-    object-fit: contain;
+    width: 140px !important;
+    height: 140px !important;
+    min-width: 140px !important;
+    min-height: 140px !important;
+    max-width: 140px !important;
+    max-height: 140px !important;
+    object-fit: contain !important;
     flex-shrink: 0 !important;
+    display: block;
 }
 
 header h1 {
@@ -250,11 +222,19 @@ header p {
 }
 
 /* =========================================================================
-   🧭 PORTFOLIO CONTROLS (ALIGNED TO THE LEFT MARGIN)
+   🧭 PORTFOLIO CONTROLS (BALANCED HORIZONTAL BAR)
    ========================================================================= */
 .portfolio-controls {
-    padding: 60px 0 30px 0;
-    text-align: left; /* Moved from center to left margin following your arrow directive */
+    padding: 60px 0 35px 0;
+    display: flex;
+    justify-content: space-between; /* Pushes text to the left margin, button to the right margin */
+    align-items: flex-end;
+}
+
+.portfolio-heading-wrapper {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
 }
 
 .portfolio-controls h2 {
@@ -263,13 +243,39 @@ header p {
     letter-spacing: 0.05em;
     text-transform: uppercase;
     color: var(--text-primary);
+    margin: 0;
 }
 
 .line-decorator {
     width: 40px;
     height: 2px;
     background-color: var(--text-primary);
-    margin: 15px 0 0 0; /* Left alignment adaptation */
+    margin-top: 15px;
+}
+
+/* 🎯 Repositioned filter button placement styling */
+.btn-open-search {
+    background-color: var(--bg-primary);
+    color: var(--text-primary);
+    border: 1px solid var(--border-subtle);
+    padding: 12px 24px;
+    font-family: var(--font-luxury);
+    font-size: 0.8rem;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    border-radius: var(--radius-premium);
+    cursor: pointer;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.02);
+    transition: var(--transition-smooth);
+    display: flex;
+    align-items: center;
+    height: fit-content;
+}
+
+.btn-open-search:hover {
+    border-color: var(--text-primary);
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(0,0,0,0.05);
 }
 
 /* =========================================================================
@@ -434,10 +440,13 @@ header p {
 }
 
 .site-logo-small {
-    height: 50px !important;
-    width: 50px !important;
+    height: 60px !important;
+    width: 60px !important;
+    min-width: 60px !important;
+    min-height: 60px !important;
     object-fit: contain;
     cursor: pointer;
+    flex-shrink: 0;
 }
 
 .btn-back {
@@ -615,24 +624,25 @@ header p {
 }
 
 /* =========================================================================
-   ✉️ CONTACT PROFILE CARDS
+   ✉️ CONTACT COMPONENT SYSTEM
    ========================================================================= */
 .contact-section {
     padding-bottom: 80px;
 }
 
 .contact-card {
-    background-color: var(--text-primary);
-    color: #ffffff;
-	width:;
+    background-color: var(--bg-secondary);
+    color: var(--text-primary);
+    border: 1px solid var(--border-subtle);
     border-radius: var(--radius-premium);
     overflow: hidden;
     position: relative;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.01);
 }
 
 .contact-accent-bar {
     height: 4px;
-    background-color: var(--text-secondary);
+    background-color: var(--text-primary);
 }
 
 .contact-grid {
@@ -645,12 +655,13 @@ header p {
 
 .contact-info-text h3 {
     font-size: 1.3rem;
-    font-weight: 400;
+    font-weight: 500;
     margin-bottom: 6px;
+    color: var(--text-primary);
 }
 
 .contact-info-text p {
-    color: #999999;
+    color: var(--text-secondary);
     font-size: 0.9rem;
 }
 
@@ -667,15 +678,21 @@ header p {
     font-size: 0.95rem;
 }
 
+.contact-item .icon {
+    font-size: 1.1rem;
+}
+
 .contact-item a {
-    color: #ffffff;
+    color: var(--text-primary);
     text-decoration: none;
-    border-bottom: 1px solid rgba(255,255,255,0.2);
+    border-bottom: 1px solid var(--border-subtle);
     transition: var(--transition-smooth);
+    font-weight: 500;
 }
 
 .contact-item a:hover {
-    border-color: #ffffff;
+    border-color: var(--text-primary);
+    color: var(--text-secondary);
 }
 
 /* =========================================================================
@@ -767,6 +784,7 @@ footer {
    📱 MOBILE RESPONSIVE ADAPTATIONS
    ========================================================================= */
 @media (max-width: 900px) {
+    .portfolio-controls { flex-direction: column; align-items: flex-start; gap: 20px; }
     .gallery { grid-template-columns: 1fr; gap: 30px; }
     .contact-grid { flex-direction: column; align-items: flex-start; gap: 20px; }
     .iframe-container { aspect-ratio: 4 / 3; }
@@ -776,6 +794,7 @@ footer {
 @media (max-width: 500px) {
     header { padding: 60px 0 40px 0; }
     header h1 { font-size: 1.8rem; }
+    .site-logo { width: 110px !important; height: 110px !important; min-width: 110px !important; min-height: 110px !important; }
     .arrow-left { left: 10px; }
     .arrow-right { right: 10px; }
     .lightbox-close { top: 15px; right: 20px; }
