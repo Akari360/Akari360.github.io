@@ -719,3 +719,237 @@ footer p {
     from { opacity: 0; transform: translateY(10px); }
     to { opacity: 1; transform: translateY(0); }
 }
+
+/* =========================================================================
+   🔍 LUXURY SLIDE-OUT FILTER INTERFACE & SPECIFICATIONS
+   ========================================================================= */
+/* Floating Right Toggle Trigger Container */
+.search-trigger-wrapper {
+    position: fixed;
+    top: 40px;
+    right: 40px;
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    z-index: 90;
+    cursor: pointer;
+    user-select: none;
+}
+
+.search-icon-text {
+    font-size: 0.75rem;
+    letter-spacing: 0.2em;
+    font-weight: 400;
+    color: var(--text-primary);
+    opacity: 0.8;
+    transition: var(--transition-smooth);
+}
+
+.search-circle-btn {
+    width: 44px;
+    height: 44px;
+    border-radius: 50%;
+    background-color: var(--bg-secondary);
+    border: 1px solid var(--border-subtle);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--text-primary);
+    box-shadow: 0 4px 15px rgba(0,0,0,0.02);
+    transition: var(--transition-smooth);
+}
+
+.search-trigger-wrapper:hover .search-circle-btn {
+    border-color: var(--text-primary);
+    transform: scale(1.05);
+}
+
+.search-trigger-wrapper:hover .search-icon-text {
+    opacity: 1;
+    letter-spacing: 0.24em;
+}
+
+/* Slide Panel Base Blueprint */
+.filter-panel {
+    position: fixed;
+    top: 0;
+    right: 0;
+    width: 380px;
+    height: 100============%;
+    height: 100vh;
+    background-color: var(--bg-secondary);
+    border-left: 1px solid var(--border-subtle);
+    box-shadow: -20px 0 60px rgba(0, 0, 0, 0.03);
+    z-index: 500;
+    padding: 40px;
+    display: flex;
+    flex-direction: column;
+    transform: translateX(100%);
+    transition: var(--transition-smooth);
+}
+
+.filter-panel.panel-open {
+    transform: translateX(0);
+}
+
+.filter-panel-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 40px;
+}
+
+.filter-panel-header h3 {
+    font-size: 1rem;
+    letter-spacing: 0.1em;
+}
+
+.close-panel-btn {
+    font-size: 1.8rem;
+    font-weight: 100;
+    cursor: pointer;
+    color: var(--text-secondary);
+    transition: var(--transition-smooth);
+}
+
+.close-panel-btn:hover {
+    color: var(--text-primary);
+    transform: rotate(90deg);
+}
+
+/* Input Fields Style Mapping */
+.filter-panel-body {
+    display: flex;
+    flex-direction: column;
+    gap: 25px;
+}
+
+.filter-group {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.filter-group label {
+    font-size: 0.75rem;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: var(--text-secondary);
+}
+
+.filter-group input[type="text"],
+.filter-group input[type="number"] {
+    background-color: var(--bg-primary);
+    border: 1px solid var(--border-subtle);
+    padding: 12px 16px;
+    font-family: var(--font-luxury);
+    font-size: 0.9rem;
+    color: var(--text-primary);
+    border-radius: var(--radius-premium);
+    outline: none;
+    transition: var(--transition-smooth);
+}
+
+.filter-group input:focus {
+    border-color: var(--text-primary);
+}
+
+.filter-row-split {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 15px;
+}
+
+/* Checkbox Structuring */
+.checkbox-group {
+    flex-direction: row;
+    align-items: center;
+    gap: 12px;
+    margin-top: 5px;
+    cursor: pointer;
+}
+
+.checkbox-group input {
+    accent-color: var(--text-primary);
+    width: 16px;
+    height: 16px;
+}
+
+.checkbox-group label {
+    text-transform: none;
+    letter-spacing: 0;
+    font-size: 0.85rem;
+    color: var(--text-primary);
+}
+
+.btn-clear-filters {
+    background: none;
+    border: 1px solid var(--border-subtle);
+    color: var(--text-secondary);
+    padding: 12px;
+    font-family: var(--font-luxury);
+    text-transform: uppercase;
+    font-size: 0.75rem;
+    letter-spacing: 0.1em;
+    cursor: pointer;
+    margin-top: 15px;
+    transition: var(--transition-smooth);
+    border-radius: var(--radius-premium);
+}
+
+.btn-clear-filters:hover {
+    border-color: var(--text-primary);
+    color: var(--text-primary);
+    background-color: var(--bg-primary);
+}
+
+/* 🏷️ CARD REFERENCE BADGE & SPECS STRIP */
+.card-ref-badge {
+    position: absolute;
+    top: 20px;
+    left: 20px;
+    background-color: rgba(255, 255, 255, 0.9);
+    backdrop-filter: blur(4px);
+    color: #1d1d1f;
+    font-size: 0.7rem;
+    font-weight: 500;
+    letter-spacing: 0.1em;
+    padding: 5px 10px;
+    border-radius: 2px;
+    z-index: 5;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.05);
+}
+
+.card-specs-strip {
+    font-size: 0.8rem;
+    color: var(--text-accent);
+    font-weight: 400;
+    letter-spacing: 0.02em;
+    margin-bottom: 12px;
+    opacity: 0.8;
+}
+
+/* Fallback Warning message context styling */
+.hidden-search-msg {
+    display: none;
+    text-align: center;
+    font-style: italic;
+    padding: 80px 0;
+    color: var(--text-secondary);
+    font-size: 1rem;
+    width: 100%;
+}
+
+.hidden-search-msg.visible {
+    display: block;
+}
+
+/* Handle mobile layout updates for the search triggers */
+@media (max-width: 768px) {
+    .search-trigger-wrapper {
+        top: 20px;
+        right: 20px;
+    }
+    .search-icon-text { display: none; }
+    .filter-panel { width: 100%; }
+}

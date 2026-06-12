@@ -3,9 +3,15 @@
 // =========================================================================
 const toursData = [
     {
-        id: "downtown-tour",
-        title: "Al Hail Twin Villa",
-        price: "OMR 125,000",
+        id: "AlHail twin Villa",
+        refCode: "AK-0001",                 // Unique Reference Code
+        title: "AlHail twin Villa",
+        price: "OMR 120,000",
+        beds: 4,                            // Number of Beds
+        baths: 5,                           // Number of Baths
+        plotSize: 300,                     // Plot Size (Optional: null if not applicable)
+        aptSize: 331.86 sqm,                       // Apartment Size in sqm / sqft
+        balcony: false,                      // Balcony: true or false
         shortDescription: "A full architectural walk-through highlighting historical landmarks.",
         longDescription: `<p> Welcome to this beautifully preserved 4 bedroom twin villa located in a very quite decent neighborhood. Featuring completely modernized utility systems.</p>
 		<p><strong>Property Highlights:</strong></p>
@@ -56,10 +62,60 @@ let activeImageIndex = 0;
 // =========================================================================
 // ⚙️ ENGINE: HOME PAGE PORTFOLIO GRID GENERATOR
 // =========================================================================
+// =========================================================================
+// ⚙️ ENGINE: HOME PAGE PORTFOLIO GRID & SEARCH RADAR GENERATOR
+// =========================================================================
 function renderHomepage() {
     window.location.hash = '';
     
     document.body.innerHTML = `
+        <!-- 🔍 SEARCH TRIGGER ICON (TOP RIGHT OF SCREEN) -->
+        <div class="search-trigger-wrapper" onclick="toggleSearchPanel()">
+            <span class="search-icon-text">FILTER ARCHIVE</span>
+            <div class="search-circle-btn">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>
+            </div>
+        </div>
+
+        <!-- 🎛️ SLIDE-OUT FILTER MODAL PANEL -->
+        <div id="search-filter-panel" class="filter-panel">
+            <div class="filter-panel-header">
+                <h3>Search Parameters</h3>
+                <span class="close-panel-btn" onclick="toggleSearchPanel()">&times;</span>
+            </div>
+            <div class="filter-panel-body">
+                <div class="filter-group">
+                    <label>Ref Code / Title Keyword</label>
+                    <input type="text" id="filter-keyword" placeholder="e.g., AK-0001 or Villa..." oninput="executeSearchFilter()">
+                </div>
+                <div class="filter-row-split">
+                    <div class="filter-group">
+                        <label>Beds (Min)</label>
+                        <input type="number" id="filter-beds" min="0" placeholder="Any" oninput="executeSearchFilter()">
+                    </div>
+                    <div class="filter-group">
+                        <label>Baths (Min)</label>
+                        <input type="number" id="filter-baths" min="0" placeholder="Any" oninput="executeSearchFilter()">
+                    </div>
+                </div>
+                <div class="filter-row-split">
+                    <div class="filter-group">
+                        <label>Min Size (Apt)</label>
+                        <input type="number" id="filter-apt-size" min="0" placeholder="sqm" oninput="executeSearchFilter()">
+                    </div>
+                    <div class="filter-group">
+                        <label>Min Plot Size</label>
+                        <input type="number" id="filter-plot-size" min="0" placeholder="sqm" oninput="executeSearchFilter()">
+                    </div>
+                </div>
+                <div class="filter-group checkbox-group">
+                    <input type="checkbox" id="filter-balcony" onchange="executeSearchFilter()">
+                    <label for="filter-balcony">Requires Private Balcony / Terrace</label>
+                </div>
+                <button class="btn-clear-filters" onclick="resetSearchFilters()">Reset Parameters</button>
+            </div>
+        </div>
+
         <header>
             <div class="container animate-fade-in">
                 <div class="logo-container">
@@ -67,6 +123,126 @@ function renderHomepage() {
                 </div>
                 <h1>Immersive Virtual Spaces</h1>
                 <p>High-resolution, self-hosted interactive 360° tours optimized for web and mobile devices.</p>
+            </div>
+        </header>
+        
+        <section class="portfolio-controls container">
+            <h2>Featured Projects</h2>
+            <div class="line-decorator"></div>
+        </section>
+        
+        <main class="container">
+            <div class="gallery" id="portfolio-grid"></div>
+            <div id="no-results-msg" class="hidden-search-msg">No properties match your current search coordinates.</div>
+        </main>
+        
+        <footer>
+            <div class="container"><p>&copy; 2026 Akari360. All rights reserved.</p></div>
+        </footer>
+    `;
+
+    // Initialize with all items visible
+    populateGridCards(toursData);
+}
+
+// Sub-Worker to write card HTML dynamically based on filter arrays
+function populateGridCards(filteredDataset) {
+    const gridContainer = document.getElementById('portfolio-grid');
+    const noResultsMsg = document.getElementById('no-results-msg');
+    if (!gridContainer) return;
+    
+    gridContainer.innerHTML = "";
+    
+    if (filteredDataset.length === 0) {
+        noResultsMsg.classList.add('visible');
+        return;
+    } else {
+        noResultsMsg.classList.remove('visible');
+    }
+
+    filteredDataset.forEach(tour => {
+        const card = document.createElement('div');
+        card.className = 'card animate-fade-in';
+        card.onclick = () => renderProjectPage(tour.id);
+
+        const coverImage = `${tour.imageFolder}/1-thumb.jpg`;
+
+        // Building the small technical specification tag values dynamically
+        let specString = `🛏️ ${tour.beds} | 🛁 ${tour.baths} | 📐 ${tour.aptSize} sqm`;
+        if (tour.plotSize) specString += ` | 🌳 Plot: ${tour.plotSize} sqm`;
+        if (tour.balcony) specString += ` | 🌅 Balcony`;
+
+        card.innerHTML = `
+            <div class="card-preview-image">
+                <img src="${coverImage}" alt="${tour.title}" loading="lazy" onerror="this.src='${tour.imageFolder}/1.jpg'">
+                <!-- Ref Code floating gracefully over the image item -->
+                <span class="card-ref-badge">${tour.refCode}</span>
+                <div class="view-tour-overlay"><span>Explore Project ✨</span></div>
+            </div>
+            <div class="card-info">
+                <div class="card-header-split">
+                    <h3>${tour.title}</h3>
+                    <span class="card-price">${tour.price}</span>
+                </div>
+                <div class="card-specs-strip">${specString}</div>
+                <p>${tour.shortDescription}</p>
+            </div>
+        `;
+        gridContainer.appendChild(card);
+    });
+}
+
+// Toggle operations for panel slides
+function toggleSearchPanel() {
+    const panel = document.getElementById('search-filter-panel');
+    if (panel) panel.classList.toggle('panel-open');
+}
+
+// Core calculation engine parsing real-time input fields
+function executeSearchFilter() {
+    const keyword = document.getElementById('filter-keyword').value.toLowerCase().trim();
+    const minBeds = parseInt(document.getElementById('filter-beds').value) || 0;
+    const minBaths = parseInt(document.getElementById('filter-baths').value) || 0;
+    const minApt = parseInt(document.getElementById('filter-apt-size').value) || 0;
+    const minPlot = parseInt(document.getElementById('filter-plot-size').value) || 0;
+    const requireBalcony = document.getElementById('filter-balcony').checked;
+
+    const filtered = toursData.filter(tour => {
+        // Match unique Reference Code or Title strings
+        const matchesKeyword = tour.refCode.toLowerCase().includes(keyword) || tour.title.toLowerCase().includes(keyword);
+        const matchesBeds = tour.beds >= minBeds;
+        const matchesBaths = tour.baths >= minBaths;
+        const matchesApt = tour.aptSize >= minApt;
+        
+        // Handle optional plot parameters safely
+        const matchesPlot = minPlot === 0 || (tour.plotSize && tour.plotSize >= minPlot);
+        const matchesBalcony = !requireBalcony || tour.balcony === true;
+
+        return matchesKeyword && matchesBeds && matchesBaths && matchesApt && matchesPlot && matchesBalcony;
+    });
+
+    populateGridCards(filtered);
+}
+
+// Reset operations back to clean slate state
+function resetSearchFilters() {
+    document.getElementById('filter-keyword').value = "";
+    document.getElementById('filter-beds').value = "";
+    document.getElementById('filter-baths').value = "";
+    document.getElementById('filter-apt-size').value = "";
+    document.getElementById('filter-plot-size').value = "";
+    document.getElementById('filter-balcony').checked = false;
+    populateGridCards(toursData);
+}    window.location.hash = '';
+    
+    document.body.innerHTML = `
+        <header>
+            <div class="container animate-fade-in">
+                <div class="logo-container">
+                    <img src="logo.jpg" alt="AKARI 360 Logo" class="site-logo">
+                </div>
+                <h1>Luxury Homes, Fully Immersive</h1>
+                <p>Step into exceptional properties from anywhere in the world.</p>
             </div>
         </header>
         <section class="portfolio-controls container">
