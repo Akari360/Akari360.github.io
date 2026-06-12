@@ -11,7 +11,6 @@
     <!-- Hero Header -->
     <header>
         <div class="container animate-fade-in">
-            <!-- Fixed: Swapped text out for the image element with correct class lock -->
             <div class="logo-container">
                 <img src="logo.png" alt="Akari Logo" class="site-logo">
             </div>
@@ -20,25 +19,23 @@
         </div>
     </header>
 
-    <!-- Filter & Portfolio Controls Bar -->
+    <!-- FIXED LAYOUT WRAPPER BAR -->
     <section class="portfolio-controls container">
         <div class="portfolio-heading-wrapper">
             <h2>Featured Projects</h2>
             <div class="line-decorator"></div>
         </div>
         
-        <!-- Fixed: Injected the button element exactly where the CSS maps it to the right margin -->
         <button class="btn-open-search" id="open-filter-btn">
-            FILTER ARCHIVE PARAMETERS
+            <span class="search-icon">🔍</span> FILTER ARCHIVE PARAMETERS
         </button>
     </section>
 
     <!-- Dynamic Portfolio Grid -->
     <main class="container">
         <div class="gallery" id="portfolio-grid">
-            <!-- JavaScript will automatically inject your Pano2VR tour cards here -->
+            <!-- JavaScript injected cards go here -->
         </div>
-        <div class="hidden-search-msg" id="no-results-msg">No properties match your active filter settings.</div>
     </main>
 
     <!-- Footer -->
@@ -48,7 +45,6 @@
         </div>
     </footer>
 
-    <!-- The Content Engine Script -->
     <script src="script.js"></script>
 </body>
 </html>

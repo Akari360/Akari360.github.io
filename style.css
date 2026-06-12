@@ -36,13 +36,13 @@ body {
 }
 
 /* =========================================================================
-   🎛️ FLOATING SIDE PANEL DRAWER
+   🎛️ FLOATING SIDE PANEL DRAWER (WITH PRECISE RIGHT CHANNEL GAPS)
    ========================================================================= */
 .floating-drawer-panel {
     position: fixed;
     top: 30px;
     bottom: 30px;
-    right: -420px;
+    right: -420px; /* Kept completely out of sight natively */
     width: 380px;
     background-color: var(--bg-secondary);
     border: 1px solid var(--border-subtle);
@@ -57,6 +57,7 @@ body {
     gap: 25px;
 }
 
+/* Slides open gracefully, stopping 415px out to ensure the floating side margin gap */
 .floating-drawer-panel.panel-open {
     transform: translateX(-415px); 
 }
@@ -192,7 +193,7 @@ header {
     align-items: center;
 }
 
-/* Rigid sizing lock prevents browser shrinkage */
+/* 🛡️ Rigid size lock overrides flex structures to keep homepage logo from shrinking */
 .site-logo {
     width: 140px !important;
     height: 140px !important;
@@ -225,9 +226,10 @@ header p {
    ========================================================================= */
 .portfolio-controls {
     padding: 60px 0 35px 0;
-    display: flex;
-    justify-content: space-between; /* Dynamically forces title left and button right */
-    align-items: center; /* Vertically aligns button center with title line */
+    display: flex !important;
+    flex-direction: row !important;
+    justify-content: space-between !important; /* Pushes text left, button to the right margin */
+    align-items: center !important; /* Keeps row alignment clean and level */
     width: 100%;
 }
 
@@ -253,7 +255,7 @@ header p {
     margin-top: 15px;
 }
 
-/* Exact placement styling mapping straight to your mock up arrow instruction */
+/* 🎯 Repositioned and stylized filter button placement mapping right to instructions */
 .btn-open-search {
     background-color: var(--bg-primary);
     color: var(--text-primary);
@@ -427,7 +429,7 @@ header p {
 }
 
 /* =========================================================================
-   🏁 PROJECT DETAIL DISPLAY SCREENS
+   🏁 PROJECT DETAIL DISPLAY SCREENS (CENTERED & LARGE LOGO BLOCK)
    ========================================================================= */
 .detail-header {
     padding: 40px 0 20px 0;
@@ -435,6 +437,7 @@ header p {
     text-align: center;
 }
 
+/* Stack column arrangement replicates your layout in edited-image.jpg perfectly */
 .detail-top-bar {
     display: flex;
     flex-direction: column;
@@ -445,6 +448,7 @@ header p {
     width: 100%;
 }
 
+/* Pull back anchor allows button to remain absolute left without offsetting the logo */
 .btn-back {
     position: absolute;
     left: 0;
@@ -464,6 +468,7 @@ header p {
     transform: translateY(-50%) translateX(-2px);
 }
 
+/* 🛡️ Strict lock matches home logo dimensions and stops internal page compression */
 .site-logo-small {
     width: 140px !important;
     height: 140px !important;
@@ -645,7 +650,7 @@ header p {
 }
 
 /* =========================================================================
-   ✉️ CONTACT COMPONENT SYSTEM
+   ✉️ CONTACT PROFILE CARDS (LIGHT BRAND STYLING)
    ========================================================================= */
 .contact-section {
     padding-bottom: 80px;
