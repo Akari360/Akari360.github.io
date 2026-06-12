@@ -3,7 +3,7 @@
 // =========================================================================
 const toursData = [
     {
-        id: "AlHail twin Villa",
+        id: "AlHail-twin-Villa",
         refCode: "AK-0001",                 // Unique Reference Code
         title: "AlHail twin Villa",
         price: "OMR 120,000",
