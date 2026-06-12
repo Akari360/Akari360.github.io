@@ -722,67 +722,81 @@ header p {
     color: var(--text-secondary);
 }
 
-/* =========================================================================
-   🖼️ LIGHTBOX MODAL SYSTEM
-   ========================================================================= */
+/* Core Lightbox Overlay Container Layout */
 .lightbox {
     position: fixed;
     top: 0;
     left: 0;
     width: 100%;
     height: 100%;
-    background-color: rgba(255, 255, 255, 0.98);
-    display: flex;
+    background: rgba(0, 0, 0, 0.85); /* Slightly translucent to see the page scrolling behind it */
+    z-index: 99999;                  /* Keeps it on top of all header/nav layers */
+    display: none;                   /* Hidden by default state config */
     align-items: center;
     justify-content: center;
-    opacity: 0;
-    pointer-events: none;
-    z-index: 2000;
-    transition: opacity 0.4s ease;
+    pointer-events: auto;            /* Captures user interaction inputs completely */
 }
 
+/* Instant activation override rule */
 .lightbox-active {
-    opacity: 1;
-    pointer-events: auto;
+    display: flex !important;        /* Instantly pops into view with zero transition delays */
 }
 
+/* Image containment boundaries layer protection */
 .lightbox-content-wrapper {
+    position: relative;
     max-width: 85%;
-    max-height: 80%;
+    max-height: 85%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    pointer-events: none;            /* Lets background click bypass pass-through cleanly */
 }
 
-.lightbox-content-wrapper img {
+#lightbox-target-img {
     max-width: 100%;
-    max-height: 100%;
+    max-height: 85vh;
     object-fit: contain;
-    border-radius: 2px;
-    box-shadow: 0 10px 40px rgba(0,0,0,0.05);
+    border-radius: 4px;
+    box-shadow: 0 10px 40px rgba(0,0,0,0.5);
+    pointer-events: auto;            /* Protects real image clicks from accidentally closing modal */
 }
 
+/* UI Controls: Close cross badge */
 .lightbox-close {
     position: absolute;
-    top: 30px;
-    right: 40px;
-    font-size: 2.2rem;
+    top: 25px;
+    right: 35px;
+    color: #ffffff;
+    font-size: 40px;
+    font-weight: 300;
     cursor: pointer;
-    color: var(--text-primary);
+    z-index: 100001;
+    user-select: none;
 }
 
+/* UI Controls: Horizontal navigation arrows alignment architecture */
 .lightbox-arrow {
     position: absolute;
     top: 50%;
     transform: translateY(-50%);
-    background: none;
+    background: transparent;
     border: none;
-    font-size: 2rem;
-    cursor: pointer;
-    color: var(--text-primary);
+    color: #ffffff;
+    font-size: 36px;
     padding: 20px;
+    cursor: pointer;
+    user-select: none;
+    z-index: 100001;
+    pointer-events: auto;            /* Ensures navigation arrows remain perfectly clickable */
 }
 
-.arrow-left { left: 40px; }
-.arrow-right { right: 40px; }
+.arrow-left { left: 20px; }
+.arrow-right { right: 20px; }
 
+.lightbox-arrow:hover, .lightbox-close:hover {
+    color: #cccccc;
+}
 footer {
     padding: 40px 0;
     border-top: 1px solid var(--border-subtle);

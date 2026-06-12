@@ -390,7 +390,7 @@ function checkImageExists(url) {
 }
 
 // =========================================================================
-// 🖼️ LIGHTBOX MODAL LOGIC
+// 🖼️ LIGHTBOX MODAL LOGIC (OPTIMIZED FOR SCROLL & OUTSIDE CLICK EXIT)
 // =========================================================================
 function openLightbox(index) {
     activeImageIndex = index;
@@ -402,13 +402,24 @@ function openLightbox(index) {
     
     if (modalImg) modalImg.src = highResPath; 
     if (modal) modal.classList.add('lightbox-active');
-    document.body.style.overflow = 'hidden';
+    
+    // CHANGED: Removed the body scroll lock so users can scroll down the page freely
+    
+    // FIXED: Attach dynamic dismiss event listener directly to background container
+    if (modal) {
+        modal.onclick = function(event) {
+            // If the user clicks the background modal itself (outside the image/arrows), close it
+            if (event.target === modal) {
+                closeLightbox();
+            }
+        };
+    }
 }
 
 function closeLightbox() {
     const modal = document.getElementById('lightbox-modal');
     if (modal) modal.classList.remove('lightbox-active');
-    document.body.style.overflow = 'auto';
+    // Body scroll remains completely untouched and active
 }
 
 function changeLightboxImage(direction) {
