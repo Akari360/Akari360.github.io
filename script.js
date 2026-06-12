@@ -1,5 +1,5 @@
 // =========================================================================
-// 📂 AUTOMATED TOUR DATA REPOSITORY
+// 📂 AUTOMATED TOUR DATA REPOSITORY (WITH ADVANCED METRICS)
 // =========================================================================
 const toursData = [
     {
@@ -21,47 +21,52 @@ const toursData = [
 		<li>Building Area: 331.86 square meter</li>
 		<li>land size: 300 square meter</li>
 		</ul>`,
+        `, 
         folderName: "0001/output",           
         imageFolder: "tours/0001/assets",    
         contact: {
-            heading: "Want to schedule a private walk-through?",
+            heading: "Want to schedule a walk-through?",
             subheading: "Contact our commercial specialist.",
-            email: "Not Available",
-            phone: "Not Available"
+            email: "Not available",
+            phone: "Not available"
         }
     },
-   // {
-        //id: "luxury-villa",
-        //title: "Luxury Modern Villa",
-        //price: "$2,490,000",
-        //shortDescription: "High-end real estate presentation showcasing interior flow and views.",
-        //longDescription: `
-          //  <p>An architectural masterpiece overlooking the valley, this luxury villa features an open-concept minimalist design, smart home automation, and panoramic glass framing.</p>
-            //
-            //<p><strong>Key Premium Details:</strong></p>
-            //<ul>
-              //  <li>Zero-edge perimeter panoramic infinity pool</li>
-                //<li>Integrated smart-home security and ambient environments</li>
-                //<li>Professional-grade chef's kitchen configuration</li>
-            //</ul>
-       // `,           
-        //folderName: "0002",           
-        //imageFolder: "tours/0002",    
-        //contact: {
-         //   heading: "Inquire about this Luxury Estate",
-        //    subheading: "Speak directly with our premium residential broker.",
-      //      email: "luxuryvillas@akari360.com",
-    //        phone: "+1 (987) 654-3210"
-  //      }
-  //  }
+    /* {
+        id: "luxury-villa",
+       refCode: "AK-0002",
+        title: "Luxury Modern Villa",
+        price: "$2,490,000",
+        beds: 5,
+        baths: 6,
+        aptSize: 420.00,                       
+        plotSize: 850.50,                      
+        balcony: true,
+        shortDescription: "High-end real estate presentation showcasing interior flow and views.",
+        longDescription: `
+            <p>An architectural masterpiece overlooking the valley, this luxury villa features an open-concept minimalist design, smart home automation, and panoramic glass framing.</p>
+            
+            <p><strong>Key Premium Details:</strong></p>
+            <ul>
+                <li>Zero-edge perimeter panoramic infinity pool</li>
+                <li>Integrated smart-home security and ambient environments</li>
+                <li>Professional-grade chef's kitchen configuration</li>
+            </ul>
+        `,           
+        folderName: "0002",           
+        imageFolder: "tours/0002",    
+        contact: {
+            heading: "Inquire about this Luxury Estate",
+            subheading: "Speak directly with our premium residential broker.",
+            email: "luxuryvillas@akari360.com",
+            phone: "+1 (987) 654-3210"
+        }
+    } */
 ];
 
+// Global session control states
 let currentGalleryArray = [];
 let activeImageIndex = 0;
 
-// =========================================================================
-// ⚙️ ENGINE: HOME PAGE PORTFOLIO GRID GENERATOR
-// =========================================================================
 // =========================================================================
 // ⚙️ ENGINE: HOME PAGE PORTFOLIO GRID & SEARCH RADAR GENERATOR
 // =========================================================================
@@ -69,7 +74,6 @@ function renderHomepage() {
     window.location.hash = '';
     
     document.body.innerHTML = `
-        <!-- 🔍 SEARCH TRIGGER ICON (TOP RIGHT OF SCREEN) -->
         <div class="search-trigger-wrapper" onclick="toggleSearchPanel()">
             <span class="search-icon-text">FILTER ARCHIVE</span>
             <div class="search-circle-btn">
@@ -77,7 +81,6 @@ function renderHomepage() {
             </div>
         </div>
 
-        <!-- 🎛️ SLIDE-OUT FILTER MODAL PANEL -->
         <div id="search-filter-panel" class="filter-panel">
             <div class="filter-panel-header">
                 <h3>Search Parameters</h3>
@@ -99,15 +102,14 @@ function renderHomepage() {
                     </div>
                 </div>
                 <div class="filter-row-split">
-    <div class="filter-group">
-        <label>Min Size (Apt sqm)</label>
-        <input type="number" id="filter-apt-size" min="0" placeholder="e.g. 300" oninput="executeSearchFilter()">
-    </div>
-    <div class="filter-group">
-        <label>Min Plot Size (sqm)</label>
-        <input type="number" id="filter-plot-size" min="0" placeholder="e.g. 800" oninput="executeSearchFilter()">
-    </div>
-</div>
+                    <div class="filter-group">
+                        <label>Min Size (Apt sqm)</label>
+                        <input type="number" id="filter-apt-size" min="0" placeholder="e.g. 300" oninput="executeSearchFilter()">
+                    </div>
+                    <div class="filter-group">
+                        <label>Min Plot Size (sqm)</label>
+                        <input type="number" id="filter-plot-size" min="0" placeholder="e.g. 800" oninput="executeSearchFilter()">
+                    </div>
                 </div>
                 <div class="filter-group checkbox-group">
                     <input type="checkbox" id="filter-balcony" onchange="executeSearchFilter()">
@@ -122,8 +124,8 @@ function renderHomepage() {
                 <div class="logo-container">
                     <img src="logo.jpg" alt="AKARI 360 Logo" class="site-logo">
                 </div>
-                <h1>Immersive Virtual Spaces</h1>
-                <p>High-resolution, self-hosted interactive 360° tours optimized for web and mobile devices.</p>
+                <h1>Luxury Homes, Fully Immersive</h1>
+                <p>Step into exceptional properties from anywhere in the world.</p>
             </div>
         </header>
         
@@ -142,45 +144,40 @@ function renderHomepage() {
         </footer>
     `;
 
-    // Initialize with all items visible
+    // Render original complete dataset on initial load
     populateGridCards(toursData);
 }
 
-// Sub-Worker to write card HTML dynamically based on filter arrays
+// Sub-Worker to parse grid system allocations safely without identifier duplications
 function populateGridCards(filteredDataset) {
-    const gridContainer = document.getElementById('portfolio-grid');
+    const targetGrid = document.getElementById('portfolio-grid');
     const noResultsMsg = document.getElementById('no-results-msg');
-    if (!gridContainer) return;
+    if (!targetGrid) return;
     
-    gridContainer.innerHTML = "";
+    targetGrid.innerHTML = "";
     
     if (filteredDataset.length === 0) {
-        noResultsMsg.classList.add('visible');
+        if (noResultsMsg) noResultsMsg.classList.add('visible');
         return;
     } else {
-        noResultsMsg.classList.remove('visible');
+        if (noResultsMsg) noResultsMsg.classList.remove('visible');
     }
 
-filteredDataset.forEach(tour => {
+    filteredDataset.forEach(tour => {
         const card = document.createElement('div');
         card.className = 'card animate-fade-in';
         card.onclick = () => renderProjectPage(tour.id);
 
         const coverImage = `${tour.imageFolder}/1-thumb.jpg`;
 
-        // 🧮 AUTOMATED MATHEMATICAL CONVERSIONS
-        // Convert sqm to sq ft by multiplying by 10.764, then rounding to clean text
+        // 🧮 Conversions calculated strictly inside local rendering scopes
         const aptSqFt = Math.round(tour.aptSize * 10.764).toLocaleString();
-        
-        // Build the composite dual-unit string for Apartment Size
         let specString = `🛏️ ${tour.beds} | 🛁 ${tour.baths} | 📐 ${tour.aptSize} sqm (${aptSqFt} sq ft)`;
         
-        // Build the composite dual-unit string for Plot Size if it exists
         if (tour.plotSize) {
             const plotSqFt = Math.round(tour.plotSize * 10.764).toLocaleString();
             specString += ` | 🌳 Plot: ${tour.plotSize} sqm (${plotSqFt} sq ft)`;
         }
-        
         if (tour.balcony) specString += ` | 🌅 Balcony`;
 
         card.innerHTML = `
@@ -198,18 +195,17 @@ filteredDataset.forEach(tour => {
                 <p>${tour.shortDescription}</p>
             </div>
         `;
-        gridContainer.appendChild(card);
+        targetGrid.appendChild(card);
     });
+}
 
-
-
-// Toggle operations for panel slides
+// Toggle operations for filter drawer panel
 function toggleSearchPanel() {
     const panel = document.getElementById('search-filter-panel');
     if (panel) panel.classList.toggle('panel-open');
 }
 
-// Core calculation engine parsing real-time input fields
+// Search Filter Execution Worker
 function executeSearchFilter() {
     const keyword = document.getElementById('filter-keyword').value.toLowerCase().trim();
     const minBeds = parseInt(document.getElementById('filter-beds').value) || 0;
@@ -219,13 +215,10 @@ function executeSearchFilter() {
     const requireBalcony = document.getElementById('filter-balcony').checked;
 
     const filtered = toursData.filter(tour => {
-        // Match unique Reference Code or Title strings
         const matchesKeyword = tour.refCode.toLowerCase().includes(keyword) || tour.title.toLowerCase().includes(keyword);
         const matchesBeds = tour.beds >= minBeds;
         const matchesBaths = tour.baths >= minBaths;
         const matchesApt = tour.aptSize >= minApt;
-        
-        // Handle optional plot parameters safely
         const matchesPlot = minPlot === 0 || (tour.plotSize && tour.plotSize >= minPlot);
         const matchesBalcony = !requireBalcony || tour.balcony === true;
 
@@ -235,7 +228,7 @@ function executeSearchFilter() {
     populateGridCards(filtered);
 }
 
-// Reset operations back to clean slate state
+// Reset operations back to clean baseline state
 function resetSearchFilters() {
     document.getElementById('filter-keyword').value = "";
     document.getElementById('filter-beds').value = "";
@@ -244,98 +237,6 @@ function resetSearchFilters() {
     document.getElementById('filter-plot-size').value = "";
     document.getElementById('filter-balcony').checked = false;
     populateGridCards(toursData);
-}    window.location.hash = '';
-    
-    document.body.innerHTML = `
-        <header>
-            <div class="container animate-fade-in">
-                <div class="logo-container">
-                    <img src="logo.jpg" alt="AKARI 360 Logo" class="site-logo">
-                </div>
-                <h1>Luxury Homes, Fully Immersive</h1>
-                <p>Step into exceptional properties from anywhere in the world.</p>
-            </div>
-        </header>
-        <section class="portfolio-controls container">
-            <h2>Featured Projects</h2>
-            <div class="line-decorator"></div>
-        </section>
-        <main class="container">
-            <div class="gallery" id="portfolio-grid"></div>
-        </main>
-        <footer>
-            <div class="container"><p>&copy; 2026 Akari360. All rights reserved.</p></div>
-        </footer>
-    `;
-
-    const gridContainer = document.getElementById('portfolio-grid');
-    if (!gridContainer) return;
-    
-    toursData.forEach(tour => {
-        const card = document.createElement('div');
-        card.className = 'card';
-        card.onclick = () => renderProjectPage(tour.id);
-
-        const coverImage = `${tour.imageFolder}/1-thumb.jpg`;
-
-        card.innerHTML = `
-            <div class="card-preview-image">
-                <img src="${coverImage}" alt="${tour.title}" loading="lazy" onerror="this.src='${tour.imageFolder}/1.jpg'">
-                <div class="view-tour-overlay"><span>Explore Project ✨</span></div>
-            </div>
-            <div class="card-info">
-                <div class="card-header-split">
-                    <h3>${tour.title}</h3>
-                    <span class="card-price">${tour.price}</span>
-                </div>
-                <p>${tour.shortDescription}</p>
-            </div>
-        `;
-        gridContainer.appendChild(card);
-    });
-}
-
-// =========================================================================
-// 🚀 BACKGROUND DISCOVERY ENGINE
-// =========================================================================
-async function autoDiscoverImages(folderPath) {
-    const maxSafetyLimit = 20; 
-    const checkPromises = [];
-
-    for (let i = 1; i <= maxSafetyLimit; i++) {
-        const testPath = `${folderPath}/${i}-thumb.jpg`;
-        checkPromises.push(
-            checkImageExists(testPath).then(exists => ({ path: testPath, exists, index: i }))
-        );
-    }
-
-    const results = await Promise.all(checkPromises);
-    results.sort((a, b) => a.index - b.index);
-
-    const validImages = [];
-    for (const result of results) {
-        if (result.exists) {
-            validImages.push(result.path);
-        } else {
-            const fallbackPath = `${folderPath}/${result.index}.jpg`;
-            const fallbackExists = await checkImageExists(fallbackPath);
-            if (fallbackExists) {
-                validImages.push(fallbackPath);
-            } else {
-                break; 
-            }
-        }
-    }
-    return validImages;
-}
-
-function checkImageExists(url) {
-    return new Promise((resolve) => {
-        const img = new Image();
-        img.onload = () => resolve(true);
-        img.onerror = () => resolve(false);
-        img.src = url;
-    });
 }
 
 // =========================================================================
@@ -358,20 +259,15 @@ function renderProjectPage(projectId) {
         </div>
 
         <header class="detail-header">
-            <!-- 👑 CENTERING LAYOUT INNER WRAPPER -->
             <div class="container detail-top-bar">
                 <div class="nav-back-wrapper">
                     <button onclick="renderHomepage()" class="btn-back">← Back to Portfolio</button>
                 </div>
-                
                 <div class="logo-centered-wrapper" onclick="renderHomepage()">
                     <img src="logo.jpg" alt="AKARI 360 Logo" class="site-logo-small">
                 </div>
-                
-                <!-- This empty spacer balances out the back button perfectly on the right side -->
                 <div class="nav-spacer"></div>
             </div>
-            
             <div class="container header-main-hero text-center" style="text-align: center; margin-top: 40px;">
                 <h1>${project.title}</h1>
                 <div class="project-hero-price">${project.price}</div>
@@ -462,12 +358,55 @@ function renderProjectPage(projectId) {
         if (track && currentGalleryArray.length > 0) {
             track.innerHTML = currentGalleryArray.map((imgUrl, index) => `
                 <div class="carousel-slide" onclick="openLightbox(${index})">
-                    <img src="${imgUrl}" alt="Gallery room view ${index + 1}" loading="lazy">
+                    <img src="${imgUrl}" alt="Gallery view ${index + 1}" loading="lazy">
                 </div>
             `).join('');
         } else if (track) {
             track.innerHTML = `<p style="color:var(--text-secondary); padding:20px;">No additional gallery images found.</p>`;
         }
+    });
+}
+
+// =========================================================================
+// 🚀 BACKGROUND DISCOVERY ENGINE
+// =========================================================================
+async function autoDiscoverImages(folderPath) {
+    const maxSafetyLimit = 20; 
+    const checkPromises = [];
+
+    for (let i = 1; i <= maxSafetyLimit; i++) {
+        const testPath = `${folderPath}/${i}-thumb.jpg`;
+        checkPromises.push(
+            checkImageExists(testPath).then(exists => ({ path: testPath, exists, index: i }))
+        );
+    }
+
+    const results = await Promise.all(checkPromises);
+    results.sort((a, b) => a.index - b.index);
+
+    const validImages = [];
+    for (const result of results) {
+        if (result.exists) {
+            validImages.push(result.path);
+        } else {
+            const fallbackPath = `${folderPath}/${result.index}.jpg`;
+            const fallbackExists = await checkImageExists(fallbackPath);
+            if (fallbackExists) {
+                validImages.push(fallbackPath);
+            } else {
+                break; 
+            }
+        }
+    }
+    return validImages;
+}
+
+function checkImageExists(url) {
+    return new Promise((resolve) => {
+        const img = new Image();
+        img.onload = () => resolve(true);
+        img.onerror = () => resolve(false);
+        img.src = url;
     });
 }
 
@@ -482,15 +421,14 @@ function openLightbox(index) {
     const thumbnailPath = currentGalleryArray[activeImageIndex];
     const highResPath = thumbnailPath.replace('-thumb.jpg', '.jpg');
     
-    modalImg.src = highResPath; 
-    modal.classList.add('lightbox-active');
+    if (modalImg) modalImg.src = highResPath; 
+    if (modal) modal.classList.add('lightbox-active');
     document.body.style.overflow = 'hidden';
 }
 
-// (The remaining lightbox navigation window functions continue to work normally below)
 function closeLightbox() {
     const modal = document.getElementById('lightbox-modal');
-    modal.classList.remove('lightbox-active');
+    if (modal) modal.classList.remove('lightbox-active');
     document.body.style.overflow = 'auto';
 }
 
@@ -498,11 +436,14 @@ function changeLightboxImage(direction) {
     activeImageIndex += direction;
     if (activeImageIndex >= currentGalleryArray.length) { activeImageIndex = 0; } 
     else if (activeImageIndex < 0) { activeImageIndex = currentGalleryArray.length - 1; }
+    
     const thumbnailPath = currentGalleryArray[activeImageIndex];
     const highResPath = thumbnailPath.replace('-thumb.jpg', '.jpg');
-    document.getElementById('lightbox-target-img').src = highResPath;
+    const modalImg = document.getElementById('lightbox-target-img');
+    if (modalImg) modalImg.src = highResPath;
 }
 
+// Routing URL state tracking hooks
 document.addEventListener('DOMContentLoaded', () => {
     const currentHash = window.location.hash;
     if (currentHash.startsWith('#project-')) {
