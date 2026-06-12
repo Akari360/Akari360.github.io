@@ -11,16 +11,26 @@
     <!-- Hero Header -->
     <header>
         <div class="container animate-fade-in">
-            <div class="logo">AKARI<span>360</span></div>
-            <h1>Immersive Virtual Spaces</h1>
-            <p>High-resolution, self-hosted interactive 360° tours optimized for web and mobile devices.</p>
+            <!-- Fixed: Swapped text out for the image element with correct class lock -->
+            <div class="logo-container">
+                <img src="logo.png" alt="Akari Logo" class="site-logo">
+            </div>
+            <h1>Luxury Homes, Fully Immersive</h1>
+            <p>Step into exceptional properties from anywhere in the world.</p>
         </div>
     </header>
 
-    <!-- Filter & Analytics Controls (Optional expansion room) -->
+    <!-- Filter & Portfolio Controls Bar -->
     <section class="portfolio-controls container">
-        <h2>Featured Projects</h2>
-        <div class="line-decorator"></div>
+        <div class="portfolio-heading-wrapper">
+            <h2>Featured Projects</h2>
+            <div class="line-decorator"></div>
+        </div>
+        
+        <!-- Fixed: Injected the button element exactly where the CSS maps it to the right margin -->
+        <button class="btn-open-search" id="open-filter-btn">
+            FILTER ARCHIVE PARAMETERS
+        </button>
     </section>
 
     <!-- Dynamic Portfolio Grid -->
@@ -28,6 +38,7 @@
         <div class="gallery" id="portfolio-grid">
             <!-- JavaScript will automatically inject your Pano2VR tour cards here -->
         </div>
+        <div class="hidden-search-msg" id="no-results-msg">No properties match your active filter settings.</div>
     </main>
 
     <!-- Footer -->

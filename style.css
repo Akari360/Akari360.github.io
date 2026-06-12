@@ -192,7 +192,7 @@ header {
     align-items: center;
 }
 
-/* 🛡️ Strict lock configuration to keep logo prominent, larger, and unshrinkable */
+/* Rigid sizing lock prevents browser shrinkage */
 .site-logo {
     width: 140px !important;
     height: 140px !important;
@@ -226,8 +226,9 @@ header p {
 .portfolio-controls {
     padding: 60px 0 35px 0;
     display: flex;
-    justify-content: space-between; /* As per edited-image.png: Heading Left, Button Right */
-    align-items: flex-end;
+    justify-content: space-between; /* Dynamically forces title left and button right */
+    align-items: center; /* Vertically aligns button center with title line */
+    width: 100%;
 }
 
 .portfolio-heading-wrapper {
@@ -252,7 +253,7 @@ header p {
     margin-top: 15px;
 }
 
-/* Filter button positioning adjustments */
+/* Exact placement styling mapping straight to your mock up arrow instruction */
 .btn-open-search {
     background-color: var(--bg-primary);
     color: var(--text-primary);
@@ -266,9 +267,10 @@ header p {
     cursor: pointer;
     box-shadow: 0 4px 15px rgba(0,0,0,0.02);
     transition: var(--transition-smooth);
-    display: flex;
+    display: inline-flex;
     align-items: center;
     height: fit-content;
+    white-space: nowrap;
 }
 
 .btn-open-search:hover {
@@ -425,15 +427,14 @@ header p {
 }
 
 /* =========================================================================
-   🏁 PROJECT DETAIL DISPLAY SCREENS (UPDATED FOR CENTERING & UN-SHRINKING)
+   🏁 PROJECT DETAIL DISPLAY SCREENS
    ========================================================================= */
 .detail-header {
     padding: 40px 0 20px 0;
     background-color: var(--bg-primary);
-    text-align: center; /* Ensures header text balances under centered logo */
+    text-align: center;
 }
 
-/* Stack layout configured natively to replicate structure in edited-image.jpg */
 .detail-top-bar {
     display: flex;
     flex-direction: column;
@@ -444,7 +445,6 @@ header p {
     width: 100%;
 }
 
-/* Absolute pull to keep "Back to portfolio" anchored perfectly left without displacing logo */
 .btn-back {
     position: absolute;
     left: 0;
@@ -464,7 +464,6 @@ header p {
     transform: translateY(-50%) translateX(-2px);
 }
 
-/* 🛡️ Strict lock matches edited-image.jpg parameters exactly */
 .site-logo-small {
     width: 140px !important;
     height: 140px !important;
