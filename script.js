@@ -415,19 +415,27 @@ function changeLightboxImage(direction) {
     if (modalImg) modalImg.src = highResPath;
 }
 
-// Routing URL state tracking hooks
+// =========================================================================
+// 🎯 FIXED URL ROUTING STATE TRACKING HOOKS
+// =========================================================================
 document.addEventListener('DOMContentLoaded', () => {
     const currentHash = window.location.hash;
     if (currentHash.startsWith('#project-')) {
-        const pId = currentHash.replace('#project-', '');
+        // FIXED: Added decodeURIComponent to convert "%20" back into raw spaces
+        const pId = decodeURIComponent(currentHash.replace('#project-', ''));
         renderProjectPage(pId);
-    } else { renderHomepage(); }
+    } else { 
+        renderHomepage(); 
+    }
 });
 
 window.addEventListener('popstate', () => {
     const currentHash = window.location.hash;
     if (currentHash.startsWith('#project-')) {
-        const pId = currentHash.replace('#project-', '');
+        // FIXED: Added decodeURIComponent to convert "%20" back into raw spaces
+        const pId = decodeURIComponent(currentHash.replace('#project-', ''));
         renderProjectPage(pId);
-    } else { renderHomepage(); }
+    } else { 
+        renderHomepage(); 
+    }
 });
