@@ -201,36 +201,7 @@ filteredDataset.forEach(tour => {
         gridContainer.appendChild(card);
     });
 
-	const card = document.createElement('div');
-        card.className = 'card animate-fade-in';
-        card.onclick = () => renderProjectPage(tour.id);
 
-        const coverImage = `${tour.imageFolder}/1-thumb.jpg`;
-
-        // Building the small technical specification tag values dynamically
-        let specString = `🛏️ ${tour.beds} | 🛁 ${tour.baths} | 📐 ${tour.aptSize} sqm`;
-        if (tour.plotSize) specString += ` | 🌳 Plot: ${tour.plotSize} sqm`;
-        if (tour.balcony) specString += ` | 🌅 Balcony`;
-
-        card.innerHTML = `
-            <div class="card-preview-image">
-                <img src="${coverImage}" alt="${tour.title}" loading="lazy" onerror="this.src='${tour.imageFolder}/1.jpg'">
-                <!-- Ref Code floating gracefully over the image item -->
-                <span class="card-ref-badge">${tour.refCode}</span>
-                <div class="view-tour-overlay"><span>Explore Project ✨</span></div>
-            </div>
-            <div class="card-info">
-                <div class="card-header-split">
-                    <h3>${tour.title}</h3>
-                    <span class="card-price">${tour.price}</span>
-                </div>
-                <div class="card-specs-strip">${specString}</div>
-                <p>${tour.shortDescription}</p>
-            </div>
-        `;
-        gridContainer.appendChild(card);
-    });
-}
 
 // Toggle operations for panel slides
 function toggleSearchPanel() {
