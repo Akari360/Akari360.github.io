@@ -240,14 +240,17 @@ function renderProjectPage(projectId) {
                 <div class="nav-back-wrapper">
                     <button onclick="renderHomepage()" class="btn-back">← Back to Portfolio</button>
                 </div>
+                <!-- Logo with updated PNG extension & centering -->
                 <div class="logo-centered-wrapper" onclick="renderHomepage()" style="position: absolute; left: 50%; transform: translateX(-50%); top: 10px; cursor: pointer;">
-                    <img src="logo.png" alt="AKARI 360 Logo" style="width: 140px; height: auto; display: block; margin: 0 auto;">
+                    <img src="logo.png" alt="AKARI 360 Logo" style="width: 140px; height: auto; display: block; margin: 0 auto; background: transparent;">
                 </div>
                 <div class="nav-spacer"></div>
             </div>
-            <div class="container header-main-hero text-center" style="text-align: center; margin-top: 110px;">
-                <h1>${project.title}</h1>
-                <div class="project-hero-price">${project.price}</div>
+            
+            <!-- FIXED: Structural horizontal split wrapper pushing title to the left and price to the right -->
+            <div class="container project-meta-split-bar">
+                <h1 class="project-split-title">${project.title}</h1>
+                <div class="project-split-price">${project.price}</div>
             </div>
         </header>
 
