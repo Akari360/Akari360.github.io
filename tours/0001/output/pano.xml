@@ -1159,7 +1159,7 @@
     </animation>
   </panorama>
   <masternode>
-    <userdata author="" comment="" copyright="" description="" tags="" title="" uuid="{9347de6b-e80d-49a4-becf-b084288c6a4b}"/>
+    <userdata author="" comment="" copyright="" description="" tags="" title="" uuid="{1daa36a2-0258-49d9-8589-3394b7a246f4}"/>
     <transition blendcolor="0x000000" blendtime="0.29999999999999999" delay="none" enabled="1" softedge="0" type="crossdissolve" zoomafterinfov="90" zoomafteroutfov="20" zoomfov="20" zoomin="0" zoomout="0" zoomoutpause="0" zoomspeed="2"/>
     <control contextfullscreen="1" contextprojections="0" contextvr="1" dblclickfullscreen="0" hideabout="1" invertcontrol="1" invertwheel="0" lockedkeyboard="0" lockedkeyboardzoom="0" lockedmouse="0" lockedwheel="0" rubberband="0" sensitivity="8" simulatemass="1" speedwheel="1" zoomcentercursor="1"/>
     <animationsequences>
