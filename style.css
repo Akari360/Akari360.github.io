@@ -896,3 +896,12 @@ footer {
     margin-top: 30px; /* Gives breathing room below your new top metadata split bar */
     text-align: left;
 }
+/* Adds space below the line decorator specifically inside the 360 viewer section */
+.main-360-viewer .line-decorator {
+    margin-bottom: 25px; /* Adjust this number higher if you want even more space */
+}
+
+/* Optional: Ensures the iframe container layout balances smoothly underneath */
+.main-360-viewer .iframe-container {
+    margin-top: 5px;
+}
