@@ -256,6 +256,9 @@ function renderProjectPage(projectId) {
 
         <section class="main-360-viewer">
             <div class="container">
+                <h2><strong>${project.title} Virtual Tour</strong></h2>
+                <div class="line-decorator"></div>
+                
                 <div class="iframe-container large-viewer">
                     <div class="loading-spinner"></div>
                     <iframe 

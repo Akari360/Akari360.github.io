@@ -892,3 +892,7 @@ footer {
         text-align: left;
     }
 }
+.main-360-viewer h2 {
+    margin-top: 30px; /* Gives breathing room below your new top metadata split bar */
+    text-align: left;
+}
