@@ -158,7 +158,7 @@ function populateGridCards(filteredDataset) {
             const plotSqFt = Math.round(tour.plotSize * 10.764).toLocaleString();
             specString += `<br><strong>Plot Size:</strong> ${tour.plotSize} sqm (${plotSqFt} sq ft)`;
         }
-        if (tour.balcony) specString += `<br><strong>Balcony/Terrace:</strong>Yes`;
+        if (tour.balcony) specString += `<br><strong>Balcony/Terrace:</strong> Yes`;
 
         card.innerHTML = `
             <div class="card-preview-image">
@@ -255,6 +255,8 @@ function renderProjectPage(projectId) {
         </header>
 
         <section class="main-360-viewer">
+		 <h2>Virtual Tour</h2>
+                <div class="line-decorator"></div>
             <div class="container">
                 <div class="iframe-container large-viewer">
                     <div class="loading-spinner"></div>
@@ -281,7 +283,7 @@ function renderProjectPage(projectId) {
 
         <main class="container project-text-section">
             <div class="details-content-card">
-                <h2>Project Overview</h2>
+                <h2>Property Overview</h2>
                 <div class="line-decorator"></div>
                 <div class="long-description">${project.longDescription}</div>
             </div>
