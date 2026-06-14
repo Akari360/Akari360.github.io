@@ -152,27 +152,27 @@ function populateGridCards(filteredDataset) {
 
         const coverImage = `${tour.imageFolder}/1-thumb.jpg`;
         const aptSqFt = Math.round(tour.aptSize * 10.764).toLocaleString();
-        let specString = `Bedrooms: ${tour.beds} | Bathrooms: ${tour.baths} | Apartment Size: ${tour.aptSize} sqm (${aptSqFt} sq ft)`;
+        let specString = `<strong>Bedrooms:</strong> ${tour.beds} | <strong>Bathrooms:</strong> ${tour.baths} | <strong>Apartment Size: </strong>${tour.aptSize} sqm (${aptSqFt} sq ft)`;
         
         if (tour.plotSize) {
             const plotSqFt = Math.round(tour.plotSize * 10.764).toLocaleString();
-            specString += ` |  Plot Size: ${tour.plotSize} sqm (${plotSqFt} sq ft)`;
+            specString += `<br><strong> |  Plot Size:</strong> ${tour.plotSize} sqm (${plotSqFt} sq ft)`;
         }
-        if (tour.balcony) specString += ` | Has Balcony/Terrace`;
+        if (tour.balcony) specString += ` | <strong>Balcony/Terrace:</strong>Yes`;
 
         card.innerHTML = `
             <div class="card-preview-image">
                 <img src="${coverImage}" alt="${tour.title}" loading="lazy" onerror="this.src='${tour.imageFolder}/1.jpg'">
                 <span class="card-ref-badge">${tour.refCode}</span>
-                <div class="view-tour-overlay"><span>Explore Project ✨</span></div>
+                <div class="view-tour-overlay"><span>Explore Property</span></div>
             </div>
             <div class="card-info">
                 <div class="card-header-split">
                     <h3>${tour.title}</h3>
-                    <span class="card-price">${tour.price}</span>
+                    <span class="card-price"><strong>${tour.price}</strong></span>
                 </div>
                 <div class="card-specs-strip">${specString}</div>
-                <p>${tour.shortDescription}</p>
+                <p><strong>${tour.shortDescription}</strong></p>
             </div>
         `;
         targetGrid.appendChild(card);
