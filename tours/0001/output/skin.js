@@ -1,7 +1,7 @@
 // Garden Gnome Software - Skin
 // Pano2VR 8.0.1/22530
 // Filename: Akari360.ggsk
-// Generated 2026-06-14T14:28:33Z
+// Generated 2026-06-14T14:52:13Z
 
 function pano2vrSkin(player,base) {
 	player.addVariable('opt_hotspot_preview', 2, true, { ignoreInState: 1  });
@@ -1543,7 +1543,20 @@ function pano2vrSkin(player,base) {
 			}
 		}
 		me._fullscreen_buttons.onclick=function (e) {
-			player.toggleFullscreen();
+			if (
+				(
+					((player.getOS() != 4))
+				)
+			) {
+				player.toggleFullscreen();
+			}
+			if (
+				(
+					((player.getOS() == 4))
+				)
+			) {
+				player.openUrl("index.html","_blank");
+			}
 		}
 		me._fullscreen_buttons.onmouseenter=function (e) {
 			me.elementMouseOver['fullscreen_buttons']=true;

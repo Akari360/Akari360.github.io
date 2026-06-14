@@ -60,7 +60,7 @@ function renderHomepage() {
     document.body.innerHTML = `
         <div id="search-filter-panel" class="floating-drawer-panel">
             <div class="filter-panel-header">
-                <h3>Search Properties</h3>
+                <h3>Filter Properties</h3>
                 <span class="close-panel-btn" onclick="toggleSearchPanel()">&times;</span>
             </div>
             <div class="filter-panel-body">
