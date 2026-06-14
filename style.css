@@ -877,7 +877,7 @@ footer {
     font-weight: 600;
     margin: 0;
     text-align: right;
-    color: var(--text-secondary, #666666);
+    color: var(--text-secondary, #000000);
 }
 
 /* Mobile Responsiveness: Stacks the elements smoothly on narrower screens */
