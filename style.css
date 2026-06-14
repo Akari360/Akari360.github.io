@@ -877,7 +877,9 @@ footer {
     font-weight: 600;
     margin: 0;
     text-align: right;
-    color: var(--text-secondary, #000000);
+    
+    /* 🎨 CHANGE COLOR HERE */
+    color: #b89047; /* Example: Premium Gold/Bronze color */
 }
 
 /* Mobile Responsiveness: Stacks the elements smoothly on narrower screens */

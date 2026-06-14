@@ -22,9 +22,9 @@ async function initApplication() {
         console.error("Database initialization failed. Falling back to local state execution:", error);
         // Fallback emergency object so the site doesn't load a blank screen if Google has an outage
         toursData = [{
-            id: "AlHail twin Villa",
+            id: "AlHail Twin Villa",
             refCode: "AK-0001",
-            title: "AlHail twin Villa",
+            title: "AlHail Twin Villa",
             price: "OMR 120,000",
             beds: 4, baths: 5, plotSize: 300, aptSize: 331.86, balcony: false,
             shortDescription: "Data fetching failed. Showing cached listing backup.",
