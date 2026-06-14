@@ -60,7 +60,7 @@ function renderHomepage() {
     document.body.innerHTML = `
         <div id="search-filter-panel" class="floating-drawer-panel">
             <div class="filter-panel-header">
-                <h3>Search Parameters</h3>
+                <h3>Search Properties</h3>
                 <span class="close-panel-btn" onclick="toggleSearchPanel()">&times;</span>
             </div>
             <div class="filter-panel-body">
@@ -109,12 +109,12 @@ function renderHomepage() {
         
         <section class="portfolio-controls container">
             <div class="portfolio-heading-wrapper">
-                <h2>Featured Projects</h2>
+                <h2>Featured Properties</h2>
                 <div class="line-decorator"></div>
             </div>
             <button class="btn-open-search" id="open-filter-btn" onclick="toggleSearchPanel()">
                 <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="margin-right: 8px; display: inline-block; vertical-align: middle;"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>
-                Filter Archive Parameters
+                Filter Properties
             </button>
         </section>
         
@@ -152,13 +152,13 @@ function populateGridCards(filteredDataset) {
 
         const coverImage = `${tour.imageFolder}/1-thumb.jpg`;
         const aptSqFt = Math.round(tour.aptSize * 10.764).toLocaleString();
-        let specString = `🛏️ ${tour.beds} | 🛁 ${tour.baths} | 📐 ${tour.aptSize} sqm (${aptSqFt} sq ft)`;
+        let specString = `Bedrooms: ${tour.beds} | Bathrooms: ${tour.baths} | Apartment Size: ${tour.aptSize} sqm (${aptSqFt} sq ft)`;
         
         if (tour.plotSize) {
             const plotSqFt = Math.round(tour.plotSize * 10.764).toLocaleString();
-            specString += ` | 🌳 Plot: ${tour.plotSize} sqm (${plotSqFt} sq ft)`;
+            specString += ` |  Plot Size: ${tour.plotSize} sqm (${plotSqFt} sq ft)`;
         }
-        if (tour.balcony) specString += ` | 🌅 Balcony`;
+        if (tour.balcony) specString += ` | Has Balcony/Terrace`;
 
         card.innerHTML = `
             <div class="card-preview-image">
@@ -296,11 +296,11 @@ function renderProjectPage(projectId) {
                     </div>
                     <div class="contact-details-list">
                         <div class="contact-item">
-                            <span class="icon">✉️</span>
+                            <span class="icon">Email:</span>
                             <a href="mailto:${project.contact.email}">${project.contact.email}</a>
                         </div>
                         <div class="contact-item">
-                            <span class="icon">📞</span>
+                            <span class="icon">Mobile:</span>
                             <a href="tel:${project.contact.phone}">${project.contact.phone}</a>
                         </div>
                     </div>
