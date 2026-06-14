@@ -250,7 +250,7 @@ function renderProjectPage(projectId) {
             <!-- FIXED: Structural horizontal split wrapper pushing title to the left and price to the right -->
             <div class="container project-meta-split-bar">
                 <h1 class="project-split-title">${project.title}</h1>
-                <div class="project-split-price">${project.price}</div>
+                <div class="project-split-price"><strong>${project.price}</strong></div>
             </div>
         </header>
 
