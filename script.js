@@ -11,16 +11,24 @@ let activeImageIndex = 0;
 // Centralized dynamic data bootstrap fetch controller
 async function initApplication() {
     try {
+        // 🛠️ FIX: Put a temporary subtle loader on screen so raw text strings don't flash
+        document.body.innerHTML = `
+            <div style="display: flex; flex-direction: column; align-items: center; justify-content: center; height: 100vh; font-family: sans-serif; background: #fcfcfc; color: #666;">
+                <img src="logo.png" alt="AKARI 360" style="width: 120px; height: auto; margin-bottom: 20px; opacity: 0.5;">
+                <div style="font-size: 0.9rem; letter-spacing: 1px; text-transform: uppercase;">Loading Portfolio...</div>
+            </div>
+        `;
+
         const response = await fetch(GOOGLE_SHEET_API_URL);
         if (!response.ok) throw new Error("Network response was not stable");
         
         toursData = await response.json();
         
-        // Trigger routing mechanisms once your database has downloaded
+        // Trigger routing mechanisms once your database has downloaded fully
         handleInitialRouting();
     } catch (error) {
         console.error("Database initialization failed. Falling back to local state execution:", error);
-        // Fallback emergency object so the site doesn't load a blank screen if Google has an outage
+        
         toursData = [{
             id: "AlHail Twin Villa",
             refCode: "AK-0001",
