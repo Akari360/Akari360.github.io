@@ -152,13 +152,13 @@ function populateGridCards(filteredDataset) {
 
         const coverImage = `${tour.imageFolder}/1-thumb.jpg`;
         const aptSqFt = Math.round(tour.aptSize * 10.764).toLocaleString();
-        let specString = `<strong>Bedrooms:</strong> ${tour.beds} | <strong>Bathrooms:</strong> ${tour.baths} | <strong>Apartment Size: </strong>${tour.aptSize} sqm (${aptSqFt} sq ft)`;
+        let specString = `<strong>Bedrooms:</strong> ${tour.beds} | <strong>Bathrooms:</strong> ${tour.baths} <br><strong>Apartment Size: </strong>${tour.aptSize} sqm (${aptSqFt} sq ft)`;
         
         if (tour.plotSize) {
             const plotSqFt = Math.round(tour.plotSize * 10.764).toLocaleString();
-            specString += `<br><strong> |  Plot Size:</strong> ${tour.plotSize} sqm (${plotSqFt} sq ft)`;
+            specString += `<br><strong>Plot Size:</strong> ${tour.plotSize} sqm (${plotSqFt} sq ft)`;
         }
-        if (tour.balcony) specString += ` | <strong>Balcony/Terrace:</strong>Yes`;
+        if (tour.balcony) specString += `<strong>Balcony/Terrace:</strong>Yes`;
 
         card.innerHTML = `
             <div class="card-preview-image">
