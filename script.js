@@ -255,10 +255,11 @@ function renderProjectPage(projectId) {
         </header>
 
         <section class="main-360-viewer">
-		 <h2>Virtual Tour</h2>
-                <div class="line-decorator"></div>
+		 
             <div class="container">
-                <div class="iframe-container large-viewer">
+                <h2><strong>${tour.title} Virtual Tour </strong></h2>
+                <div class="line-decorator"></div>
+				<div class="iframe-container large-viewer">
                     <div class="loading-spinner"></div>
                     <iframe 
                         src="tours/${project.folderName}/index.html" 
