@@ -158,7 +158,7 @@ function populateGridCards(filteredDataset) {
             const plotSqFt = Math.round(tour.plotSize * 10.764).toLocaleString();
             specString += `<br><strong>Plot Size:</strong> ${tour.plotSize} sqm (${plotSqFt} sq ft)`;
         }
-        if (tour.balcony) specString += `<strong>Balcony/Terrace:</strong>Yes`;
+        if (tour.balcony) specString += `<br><strong>Balcony/Terrace:</strong>Yes`;
 
         card.innerHTML = `
             <div class="card-preview-image">
@@ -168,7 +168,7 @@ function populateGridCards(filteredDataset) {
             </div>
             <div class="card-info">
                 <div class="card-header-split">
-                    <h3>${tour.title}</h3>
+                    <h3><strong>${tour.title}</strong></h3>
                     <span class="card-price"><strong>${tour.price}</strong></span>
                 </div>
                 <div class="card-specs-strip">${specString}</div>
